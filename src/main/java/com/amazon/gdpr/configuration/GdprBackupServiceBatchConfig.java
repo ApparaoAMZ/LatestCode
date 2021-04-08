@@ -244,6 +244,7 @@ public class GdprBackupServiceBatchConfig {
 					System.out.println("tranType::"+tranType);
 					trimmedStrings=lstcls;
 					trimmedStrings.remove("id");
+					trimmedStrings.remove("run_id");
 					}
 				 }
 				Set<String> hSet = new HashSet<String>(trimmedStrings);
