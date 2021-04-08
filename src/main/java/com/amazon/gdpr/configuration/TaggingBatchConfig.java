@@ -132,7 +132,7 @@ public class TaggingBatchConfig {
 				String tagQuery = runSummaryMgmt.getTaggedQueryLoad();
 				reader = new JdbcCursorItemReader<ArchiveTable>();
 				reader.setDataSource(dataSource);
-				tagQuery=tagQuery.replaceAll("INTERVIEW__C", "INTERVIEW1__C");
+				//tagQuery=tagQuery.replaceAll("INTERVIEW__C", "INTERVIEW1__C");
 				reader.setSql(tagQuery);
 				System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: sqlQuery "+tagQuery);
 				reader.setRowMapper(new ArchiveTableRowMapper(runId));
