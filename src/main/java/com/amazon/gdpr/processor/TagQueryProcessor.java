@@ -145,8 +145,8 @@ public class TagQueryProcessor {
 				ImpactTable currentImpactTable = mapImpactTable.get(tableList[tableListIterator]);
 								
 				if(tableListIterator == 0) {				
-					query[0] = "SELECT DISTINCT "+tableName+".ID ID, "+ selectCls;
-					//query[0] = "SELECT DISTINCT "+tableName+".ID ID, "+runId+" RUN_ID,"+ selectCls;
+					//query[0] = "SELECT DISTINCT "+tableName+".ID ID, "+ selectCls;
+					query[0] = "SELECT DISTINCT "+tableName+".ID ID, "+runId+" RUN_ID,"+ selectCls;
 					
 					query[1] = " FROM " +currentImpactTable.getImpactSchema()+"."+tableName +" "+tableName+", GDPR.DATA_LOAD DL"; 
 							//parentSchema +"."+parentTableNm+" "+parentTableNm;
