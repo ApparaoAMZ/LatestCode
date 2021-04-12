@@ -213,7 +213,7 @@ public class AnonymizationFileProcessor {
 				if (lstAnonymizationDetail != null){
 					List<String> impactFieldExists = lstAnonymizationDetail.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()+"-"+it.getRegion()).collect(Collectors.toList());
 					List<String> impactFieldNew = lstAnonymizationDetailUpdated.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()+"-"+it.getRegion()).collect(Collectors.toList());
-					System.out.println("impactFieldNew to Test:::"+impactFieldNew);
+					System.out.println("impactFieldNew to  Test:::"+impactFieldNew);
 					for(AnonymizationDetail ad:lstAnonymizationDetailUpdated) {
 						String anomizeDetail=ad.getImpactFieldId()+"-"+ad.getCategoryId()+"-"+ad.getRegion();
 						if(impactFieldExists.contains(anomizeDetail)) {						
