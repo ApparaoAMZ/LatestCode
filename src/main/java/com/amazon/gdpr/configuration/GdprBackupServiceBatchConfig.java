@@ -116,7 +116,7 @@ public class GdprBackupServiceBatchConfig {
 
 			reader = new JdbcCursorItemReader<BackupServiceInput>();
 			reader.setDataSource(dataSource);
-			reader.setSql(gdprSummaryDataFetch + runId);
+			reader.setSql(gdprSummaryDataFetch + runId+" AND BACKUP_ROW_COUNT IS NULL ORDER BY RUN_ID, SUMMARY_ID");
 			reader.setRowMapper(new BackupServiceInputRowMapper());
 
 		return reader;

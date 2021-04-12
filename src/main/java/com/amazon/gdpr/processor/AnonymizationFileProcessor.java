@@ -207,15 +207,15 @@ public class AnonymizationFileProcessor {
 					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetail : "+lstAnonymizationDetail);
 					Collections.sort(lstAnonymizationDetail, new SortByFieldId());
 					boolean duplicateFlag = lstAnonymizationDetailUpdated.removeAll(lstAnonymizationDetail);
-					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: duplicateFlag : "+duplicateFlag);					
-					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetailUpdated : "+lstAnonymizationDetailUpdated);
+					System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: duplicateFlag : "+duplicateFlag);					
+					System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetailUpdated : "+lstAnonymizationDetailUpdated);
 				}
 				if (lstAnonymizationDetail != null){
-					List<String> impactFieldExists = lstAnonymizationDetail.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()).collect(Collectors.toList());
-					List<String> impactFieldNew = lstAnonymizationDetailUpdated.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()).collect(Collectors.toList());
+					List<String> impactFieldExists = lstAnonymizationDetail.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()+"-"+it.getRegion()).collect(Collectors.toList());
+					List<String> impactFieldNew = lstAnonymizationDetailUpdated.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()+"-"+it.getRegion()).collect(Collectors.toList());
 					System.out.println("impactFieldNew to Test:::"+impactFieldNew);
 					for(AnonymizationDetail ad:lstAnonymizationDetailUpdated) {
-						String anomizeDetail=ad.getImpactFieldId()+"-"+ad.getCategoryId();
+						String anomizeDetail=ad.getImpactFieldId()+"-"+ad.getCategoryId()+"-"+ad.getRegion();
 						if(impactFieldExists.contains(anomizeDetail)) {						
 							System.out.println("impactfieldUpdate  to Test:::"+anomizeDetail);
 							//lstAnonymizationDetailUpdated.remove(ad);
