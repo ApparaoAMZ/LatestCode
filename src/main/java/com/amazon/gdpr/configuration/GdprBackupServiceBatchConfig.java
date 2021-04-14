@@ -261,12 +261,8 @@ public class GdprBackupServiceBatchConfig {
 				   selectColumns, runId);
 				completeQuery = completeQuery.replaceAll("TAG.", "SF_ARCHIVE.");
 				@SuppressWarnings("unchecked")
-				//String backupDataInsertQuery = "INSERT INTO BKP." + backupTableName + " (ID," + selectColumns + ") "
-					//	+ completeQuery + " ON CONFLICT (id) DO UPDATE " + "  SET " + splittedValues + ";";
-				
 				String backupDataInsertQuery = "INSERT INTO BKP." + backupTableName + " (ID,RUN_ID," + selectColumns + ") "
 						+ completeQuery + " ON CONFLICT ON CONSTRAINT BKP_"+backupTableName.toUpperCase()+"_CHECK DO UPDATE " + "  SET " + splittedValues + ";";
-				
 				insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
 
 				System.out.println("Inserted::"+insertcount+"backupDataInsertQuery::::::#$ " +

@@ -100,10 +100,11 @@ public class ReOrganizeInputEmpBatchConfig {
 			+ "GD.STAFF_EXP_PROCESSED_DATE__C < RM.DATA_LOAD_DATE) THEN GD.STAFF_EXP_STATUS__C ELSE 'NOT TO BE PROCESSED' END STAFF_EXP_STATUS__C, " 
 			+ "CASE WHEN (GD.MASTER_DATA_PROCESSED_DATE__C IS NOT NULL AND GD.MASTER_DATA_PROCESSED_DATE__C >= DL.LAST_DATA_LOADED_DATE AND "
 			+ "GD.MASTER_DATA_PROCESSED_DATE__C < RM.DATA_LOAD_DATE) THEN GD.MASTER_DATA_STATUS__C ELSE 'NOT TO BE PROCESSED' END MASTER_DATA_STATUS__C "
-			+ "FROM SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C GD, GDPR.DATA_LOAD DL, GDPR.RUN_MGMT RM "
-			+ "WHERE (GD.BIO_PHOTO_STATUS__C IN ('DEPERSONALIZATION_COMPLETE', 'DEPERSON_NO_TASK_COMPLETE') "
-			+ "OR GD.STAFF_EXP_STATUS__C IN ('DEPERSONALIZATION_COMPLETE', 'DEPERSON_NO_TASK_COMPLETE') " 
-			+ "OR GD.MASTER_DATA_STATUS__C IN ('DEPERSONALIZATION_COMPLETE', 'DEPERSON_NO_TASK_COMPLETE')) AND GD.COUNTRY_CODE__C = DL.COUNTRY_CODE "
+			+ "FROM SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C GD, GDPR.DATA_LOAD DL, GDPR.RUN_MGMT RM WHERE "
+			+ "(GD.BIO_PHOTO_STATUS__C IN ('Sent') "
+			+ "OR GD.STAFF_EXP_STATUS__C IN ('Sent') " 
+			+ "OR GD.MASTER_DATA_STATUS__C IN ('Sent')) "
+			+ "AND GD.COUNTRY_CODE__C = DL.COUNTRY_CODE "
 			+ "AND (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
 			+ "AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND RM.RUN_ID = "+runId 
 			+ " AND GD.COUNTRY_CODE__C =  \'"+countryCode+"\' ORDER BY GD.CANDIDATE__C";
@@ -199,8 +200,7 @@ public class ReOrganizeInputEmpBatchConfig {
 			for(String fieldCategory : fieldCategoryList){					
 				Field field = GdprDepersonalizationInput.class.getDeclaredField(fieldCategory);
 				String fieldValue = (String) field.get(gdprDepersonalizationInput);
-				if(GlobalConstants.STATUS_DEPERSONALIZATION_COMPLETE.equalsIgnoreCase(fieldValue) || 
-						GlobalConstants.STATUS_DEPERSON_NO_TASK_COMPLETE.equalsIgnoreCase(fieldValue)) {
+				if(GlobalConstants.STATUS_SENT.equalsIgnoreCase(fieldValue)) {
 					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
 						gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
 						gdprDepersonalizationInput.getCountryCode(), fieldValue, 

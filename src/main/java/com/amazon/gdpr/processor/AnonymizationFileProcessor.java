@@ -207,8 +207,8 @@ public class AnonymizationFileProcessor {
 					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetail : "+lstAnonymizationDetail);
 					Collections.sort(lstAnonymizationDetail, new SortByFieldId());
 					boolean duplicateFlag = lstAnonymizationDetailUpdated.removeAll(lstAnonymizationDetail);
-					System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: duplicateFlag : "+duplicateFlag);					
-					System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetailUpdated : "+lstAnonymizationDetailUpdated);
+					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: duplicateFlag : "+duplicateFlag);					
+					//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstAnonymizationDetailUpdated : "+lstAnonymizationDetailUpdated);
 				}
 				if (lstAnonymizationDetail != null){
 					List<String> impactFieldExists = lstAnonymizationDetail.stream().map(it -> it.getImpactFieldId() + "-" + it.getCategoryId()+"-"+it.getRegion()).collect(Collectors.toList());

@@ -14,6 +14,7 @@ public class GlobalConstants {
 	public static String STATUS_CLEARED			= "CLEARED";
 	public static String STATUS_DEPERSONALIZATION_COMPLETE = "DEPERSONALIZATION_COMPLETE";
 	public static String STATUS_DEPERSON_NO_TASK_COMPLETE = "DEPERSON_NO_TASK_COMPLETE";
+	public static String STATUS_SENT			= "SENT";
 	public static String STATUS_NODATA			= "NO DATA";
 	public static String STATUS_RERUN			= "RE-RUN";
 	
