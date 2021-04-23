@@ -11,6 +11,7 @@ import com.amazon.gdpr.dao.RunMgmtDaoImpl;
 import com.amazon.gdpr.model.gdpr.output.RunSummaryMgmt;
 import com.amazon.gdpr.processor.AnonymizationFileProcessor;
 import com.amazon.gdpr.processor.BackupTableProcessor;
+import com.amazon.gdpr.processor.DataLoadProcessor;
 import com.amazon.gdpr.processor.ReOrganizeInputProcessor;
 import com.amazon.gdpr.processor.RunMgmtProcessor;
 import com.amazon.gdpr.processor.SummaryDataProcessor;
@@ -35,6 +36,9 @@ public class InitService {
 	RunMgmtProcessor runMgmtProcessor;
 	
 	@Autowired
+	DataLoadProcessor dataLoadProcessor;
+	
+	@Autowired
 	AnonymizationFileProcessor anonymizationFileProcessor;
 
 	@Autowired
@@ -42,7 +46,7 @@ public class InitService {
 	
 	@Autowired
 	ReOrganizeInputProcessor reOrganizeInputProcessor;
-
+	
 	@Autowired
 	SummaryDataProcessor summaryDataProcessor;
 	
@@ -58,28 +62,34 @@ public class InitService {
 	 */
 	public String initService(String runName, List<String> selectedCountries) {
 		String CURRENT_METHOD = "initService";
-		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
 		
 		String initServiceReturnStatus = "";
 		Boolean exceptionOccured = false;
 				
-		try{
+		try {
 			//Initiates the run. Establishes the run in the DB
 			runId =  runMgmtProcessor.initializeRun(runName);
 			initServiceReturnStatus = runMgmtProcessor.initializeRunStatus;
 			Boolean oldRun = runMgmtProcessor.oldRun; 
 			if(! oldRun) {
-				String[] initServiceStatus = initialize(runId, selectedCountries);
-				initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
-			}			
+				String odasevaRunStatus = dataLoadProcessor.odasevaRunCheck(runId);
+				initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + odasevaRunStatus;
+				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {					
+					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
+					
+					String[] initServiceStatus = initialize(runId, lstCountry);
+					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
+				}				
+			} 
 		} catch(GdprException exception) {
 			exceptionOccured = true;
 			initServiceReturnStatus = initServiceReturnStatus + exception.getExceptionMessage();
 		}
 		try {
-			if(exceptionOccured){
+			if(exceptionOccured) { 
 				runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_FAILURE, initServiceReturnStatus);
-			}else{
+			} else { 
 				runMgmtDaoImpl.updateRunComments(runId, initServiceReturnStatus);
 			}
 		} catch(Exception exception) {
@@ -100,7 +110,7 @@ public class InitService {
 		
 		String CURRENT_METHOD = "initialize";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
-		String[] initializationStatus = new String[2];		
+		String[] initializationStatus = new String[2];
 		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before Anonymization Processor : "+LocalTime.now());
 		int insertRunAnonymizationCounts = anonymizationFileProcessor.loadRunAnonymization(runId, selectedCountries);		

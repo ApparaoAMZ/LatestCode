@@ -165,8 +165,7 @@ public class ReOrganizeInputProcessor {
 			}
 	    	try {
 	    		if((! exceptionOccured) && GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(prevJobModuleStatus)){
-	    			backupService.backupDepersonalizationTables(runId);
-	    			backupService.backupServiceInitiate(runId);
+					backupService.backupServiceInitiate(runId);
 	    			//tagDataProcessor.taggingInitialize(runId);
 				}
 			} catch(Exception exception) {

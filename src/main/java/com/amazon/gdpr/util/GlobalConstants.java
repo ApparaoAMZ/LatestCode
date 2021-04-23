@@ -23,6 +23,7 @@ public class GlobalConstants {
 	public static String MODULE_INITIALIZATION 					= "Initialization Module";
 	public static String SUB_MODULE_RUN_INITIALIZE				= "Run Initialize Sub Module";
 	public static String SUB_MODULE_RERUN_INITIALIZE			= "Re-Run Initialize Sub Module";
+	public static String SUB_MODULE_ODASEVA_CHECK_INITIALIZE	= "Odaseva Run check SubModule";
 	public static String SUB_MODULE_RUN_ANONYMIZE_INITIALIZE	= "Anonymize Initiatlize Sub Module";
 	public static String SUB_MODULE_ANONYMIZE_JOB_INITIALIZE	= "Anonymize Archival Job Sub Module";
 	public static String SUB_MODULE_BACKUP_TABLE_INITIALIZE		= "Backup Table Initialize Sub Module";
@@ -121,6 +122,8 @@ public class GlobalConstants {
 	public static String CLS_DATALOADROWMAPPER				= "DataLoadRowMapper";
 	public static String CLS_DATALOADDATEROWMAPPER			= "DataLoadDateRowMapper";
 	public static String CLS_RUNSUMMARYMGMT_ROWMAPPER 		= "RunSummaryMgmtRowMapper";
+	public static String CLS_GDPRHEROKUTAGGING_ROWMAPPER	= "GdprHerokuTaggingRowMapper";
+	public static String CLS_GDPR_COUNTRIES_FETCH			= "GdprCountriesFetch";
 	
 	/*****Backup Table Processor Code Change Starts***/
 	public static String CLS_BACKUPTABLEPROCESSORDAOIMPL			= "BackupTableProcessorDaoImpl";
@@ -139,6 +142,7 @@ public class GlobalConstants {
 	public static String CLS_ANONYMIZECOMPLETIONLISTENER 	= "AnonymizeJobCompletionListener";	
 	public static String CLS_ITEMCOUNTLISTENER 				= "ItemCountListener";
 	public static String CLS_GDPRREADLISTENER				= "GdprReadListener";
+	public static String CLS_CANDIDATETAGCOMPLETIONLISTENER = "CandidateTagCompletionListener";
 	
 	/*****Backup Table Processor Code Change Ends***/
 	public static String TEMPLATE_FILEUPLOAD				= "fileUpload";
@@ -326,8 +330,14 @@ public class GlobalConstants {
 	public static String ERR_DATABACKUP_PROCESS     				= "Facing issues in inserting backup data in backup tables. ";
 	public static String ERR_BACKUPSERVICE_DATA_COUNT				= "Facing issues in Updating backup Count. ";
 	public static String ERR_BACKUPSERVICE_JOB 						= "Facing issues inititing backup service job. ";
-	public static String ERR_BACKUPSERVICE_STEP 					= "Facing issues inititing backup service step. ";
-	public static String MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA			= "Depersonalization Tables Backup performed";
+	public static String ERR_BACKUPSERVICE_STEP 					= "Facing issues inititing backup service step. ";	
+	
+	public static String ERR_GDPR_SCHEDULER_AUTOMATION_INIT			= "Facing issues in initializing the GDPR process automation. ";
+	public static String ERR_GDPR_ODASEVA_RUN_STATUS_CHECK			= "Facing issues in verifying the Odaseva run check. ";
+	public static String ERR_GDPR_COUNTRIES_FETCH					= "Facing issues in fetching the countries. ";
+	
+	public static String MSG_ODASEVA_RUN_DATA_EXIST					= "Depersonalization data is available. ";
+	public static String MSG_ODASEVA_RUN_NO_DATA_EXIST				= "No Depersonalization data";
 	
 	
 }

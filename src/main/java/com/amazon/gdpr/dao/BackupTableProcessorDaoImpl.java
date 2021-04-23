@@ -48,19 +48,6 @@ public class BackupTableProcessorDaoImpl {
 		return lstBackupTableDetails;
 	}
 
-	
-	/**
-	 * Fetches the BackupTableDetails Table rows
-	 * 
-	 * @return List of BackupTable Details
-	 */
-	public List<BackupTableDetails> fetchSFCOPYTableDetails() {
-		String CURRENT_METHOD = "fetchSFCOPYTableDetails";
-		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + ":: Inside method");
-		List<BackupTableDetails> lstSfCopyBackupTableDetails = jdbcTemplate.query(SqlQueriesConstant.SF_COPY_COLUMNS_QRY,
-				new BackupTableDetailsRowMapper());
-		return lstSfCopyBackupTableDetails;
-	}
 	/**
 	 * This method alters existing table to add new impacted column
 	 * 

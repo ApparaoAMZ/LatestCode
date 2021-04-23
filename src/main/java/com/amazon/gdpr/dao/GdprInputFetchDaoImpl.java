@@ -12,8 +12,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.amazon.gdpr.dao.GdprInputDaoImpl.ImpactTableRowMapper;
 import com.amazon.gdpr.model.gdpr.input.Country;
+import com.amazon.gdpr.model.gdpr.input.GdprHerokuTagging;
 import com.amazon.gdpr.model.gdpr.input.ImpactTable;
 import com.amazon.gdpr.util.GlobalConstants;
 import com.amazon.gdpr.util.SqlQueriesConstant;
@@ -111,4 +111,70 @@ public class GdprInputFetchDaoImpl {
 					rs.getString("PARENT_TABLE_NAME"), rs.getString("IMPACT_TABLE_COLUMN"), rs.getString("PARENT_TABLE_COLUMN"));
 		}
 	}
+	
+	/**
+	 * Fetches the GDPR_HEROKU_TAGGING Table rows
+	 * @return List of GdprHerokuTagging
+	 */
+	public List<GdprHerokuTagging> fetchGdprHerokuTagging(){
+		String CURRENT_METHOD = "fetchGdprHerokuTagging";
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		
+		@SuppressWarnings("unchecked")
+		List<GdprHerokuTagging> lstGdprHerokuTagging = jdbcTemplate.query(SqlQueriesConstant.GDPR_HEROKU_TAGGING_FETCH, new GdprHerokuTaggingRowMapper());
+		return lstGdprHerokuTagging;
+	}
+	
+	/****************************************************************************************
+	 * This rowMapper converts the row data from GDPR_HEROKU_TAGGING table to GdprHerokuTagging Object 
+	 ****************************************************************************************/
+	@SuppressWarnings("rawtypes")
+	class GdprHerokuTaggingRowMapper implements RowMapper{
+		private String CURRENT_CLASS		 		= GlobalConstants.CLS_GDPRHEROKUTAGGING_ROWMAPPER;
+		
+		/* 
+		 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+		 */
+		@Override
+		public GdprHerokuTagging mapRow(ResultSet rs, int rowNum) throws SQLException {
+			String CURRENT_METHOD = "mapRow";
+			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+			
+			return new GdprHerokuTagging();
+		}
+	}
+	
+	/**
+	 * Fetches the GDPR_HEROKU_TAGGING Table rows
+	 * @return List of GdprHerokuTagging
+	 */
+	public List<String> fetchCountries(long runId){
+		String CURRENT_METHOD = "fetchCountries";
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		
+		@SuppressWarnings("unchecked")
+		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_COUNTRIES_FETCH, new Object[]{runId, runId}, new GdprCountriesFetch());
+		return lstCountries;
+	}
+	
+	/****************************************************************************************
+	 * This rowMapper converts the row data from GDPR_HEROKU_TAGGING table to GdprHerokuTagging Object 
+	 ****************************************************************************************/
+	@SuppressWarnings("rawtypes")
+	class GdprCountriesFetch implements RowMapper{
+		private String CURRENT_CLASS		 		= GlobalConstants.CLS_GDPR_COUNTRIES_FETCH;
+		
+		/* 
+		 * @see org.springframework.jdbc.core.RowMapper#mapRow(java.sql.ResultSet, int)
+		 */
+		@Override
+		public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+			String CURRENT_METHOD = "mapRow";
+			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+			
+			return rs.getString(1);
+		}
+	}
+	
+	
 }
