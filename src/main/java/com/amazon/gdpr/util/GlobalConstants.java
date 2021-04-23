@@ -338,6 +338,10 @@ public class GlobalConstants {
 	
 	public static String MSG_ODASEVA_RUN_DATA_EXIST					= "Depersonalization data is available. ";
 	public static String MSG_ODASEVA_RUN_NO_DATA_EXIST				= "No Depersonalization data";
+	public static String MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA			= "Depersonalization Tables Backup performed";
+	//public static String TBL_GDPR_DEPERSONALIZATION__C			= "GDPR_DEPERSONALIZATION__C";
+	public static String TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C			= "GDPR_EMPLOYEE_DEPERSONALIZATION__C";
+	
 	
 	
 }

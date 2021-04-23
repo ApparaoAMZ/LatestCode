@@ -1,7 +1,9 @@
 package com.amazon.gdpr.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,9 +21,12 @@ import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazon.gdpr.dao.BackupServiceDaoImpl;
+import com.amazon.gdpr.dao.BackupTableProcessorDaoImpl;
 import com.amazon.gdpr.dao.GdprInputDaoImpl;
 import com.amazon.gdpr.dao.GdprOutputDaoImpl;
 import com.amazon.gdpr.dao.RunMgmtDaoImpl;
+import com.amazon.gdpr.model.gdpr.output.BackupTableDetails;
 import com.amazon.gdpr.model.gdpr.output.RunModuleMgmt;
 import com.amazon.gdpr.model.gdpr.output.RunSummaryMgmt;
 import com.amazon.gdpr.processor.ModuleMgmtProcessor;
@@ -59,6 +64,12 @@ public class BackupService {
 	
 	@Autowired
 	RunMgmtDaoImpl runMgmtDaoImpl;
+	
+	@Autowired
+	public BackupServiceDaoImpl backupServiceDaoImpl;
+	
+	@Autowired
+	private BackupTableProcessorDaoImpl backupTableProcessorDaoImpl;
 	
 	public String backupServiceInitiate(long runId) {
 		String CURRENT_METHOD = "backupServiceInitiate";
@@ -133,6 +144,57 @@ public class BackupService {
 				System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+backupServiceStatus);
 			}
 		}
+	}
+	public String backupDepersonalizationTables(long runId) {
+		String CURRENT_METHOD = "backupDepersonalizationTables";
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		Boolean exceptionOccured = false;
+		List<BackupTableDetails> lstBackupTableDetails = null;
+		Map<String, List<String>> mapbackuptable = null;
+		String selectColumns ="";
+		List<String> lstCols = new ArrayList<String>();
+		long insertcount = 0;
+		lstBackupTableDetails = backupTableProcessorDaoImpl.fetchSFCOPYTableDetails();
+		mapbackuptable = lstBackupTableDetails.stream().collect(Collectors.toMap(BackupTableDetails::getBackupTableName, bkp -> {
+			List list = new ArrayList<String>();
+			list.add(bkp.getBackupTablecolumn());
+			return list;
+		}, (s, a) -> {
+			s.add(a.get(0));
+			return s;
+		}));
+		
+		System.out.println(" :::mapbackuptable:: "+mapbackuptable+":: Inside method");
+		
+		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
+		try {
+		
+		if(mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C)) {
+			lstCols=mapbackuptable.get(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C.toLowerCase());	
+			lstCols.remove("run_id");
+			selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
+			System.out.println(" :::selectColumns:: "+selectColumns+":: Inside method");
+		    String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_DEPERSONALIZATION__C (RUN_ID," + selectColumns + ")  select "+runId+" RUN_ID,"+selectColumns+" FROM SF_ARCHIVE.GDPR_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"' OR TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"'";
+		    System.out.println(" :::backupDataInsertQuery:: "+backupDataInsertQuery+":: Inside method");
+		    insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+		} 
+		
+		if(mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C)) {
+			lstCols=mapbackuptable.get(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase());	
+			lstCols.remove("run_id");
+			selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
+			System.out.println(" :::selectColumns:: "+selectColumns+":: Inside method");
+		    String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID," + selectColumns + ")  select "+runId+" RUN_ID,"+selectColumns+" FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD')>='"+strLastFetchDate+"' OR TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"'";
+		    System.out.println(" :::backupDataInsertQuery:: "+backupDataInsertQuery+":: Inside method");
+		    insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+		} 
+		
+		}  catch(Exception exception) {
+			exceptionOccured = true;
+			exception.printStackTrace();
+			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: ");
+		}
+		return GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
 	}
 
 	

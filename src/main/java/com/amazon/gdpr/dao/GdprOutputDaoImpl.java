@@ -96,6 +96,16 @@ public class GdprOutputDaoImpl {
 	 * Fetches the Last Data Load detail of a particular table
 	 * @return Date The date when the last data was loaded in the table
 	 */
+	public String fetchLastDataLoadedDate() {
+		String CURRENT_METHOD = "fetchLastDataLoadedDate";		
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		return (String)jdbcTemplate.queryForObject(SqlQueriesConstant.LAST_DATA_LOADED_DATE_FETCH, String.class);
+	}	
+	
+	/**
+	 * Fetches the Last Data Load detail of a particular table
+	 * @return Date The date when the last data was loaded in the table
+	 */
 	public List<RunModuleMgmt> fetchLastModuleData(long runId) {
 		String CURRENT_METHOD = "fetchLastModuleData";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
