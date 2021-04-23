@@ -327,4 +327,7 @@ public class GlobalConstants {
 	public static String ERR_BACKUPSERVICE_DATA_COUNT				= "Facing issues in Updating backup Count. ";
 	public static String ERR_BACKUPSERVICE_JOB 						= "Facing issues inititing backup service job. ";
 	public static String ERR_BACKUPSERVICE_STEP 					= "Facing issues inititing backup service step. ";
+	public static String MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA			= "Depersonalization Tables Backup performed";
+	
+	
 }
