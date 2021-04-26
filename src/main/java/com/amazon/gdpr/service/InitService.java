@@ -52,9 +52,9 @@ public class InitService {
 	
 	@Autowired
 	RunMgmtDaoImpl runMgmtDaoImpl;
-				
-	//@Autowired
-	//BackupService backupService;
+	
+	@Autowired
+	BackupService backupService;
 	/**
 	 * This method initiates the InitService activities
 	 * @param runName
@@ -127,13 +127,14 @@ public class InitService {
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before Summary Processor : "+LocalTime.now());			
 			String summaryStatus = summaryDataProcessor.processSummaryData(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After Summary Processor : "+LocalTime.now());
+			String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before GDPR Data Processor : "+LocalTime.now());
 			String reOrganizeDataStatus = reOrganizeInputProcessor.reOrganizeData(runId, selectedCountries);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After GDPR Data Processor : "+LocalTime.now());			
 						
 			initializationStatus[1] = GlobalConstants.RUN_ANONYMIZATION_INSERT + insertRunAnonymizationCounts +
 					GlobalConstants.SEMICOLON_STRING + processBackupTableStatus + GlobalConstants.SEMICOLON_STRING + summaryStatus + 
-					GlobalConstants.SEMICOLON_STRING + reOrganizeDataStatus;
+					GlobalConstants.SEMICOLON_STRING +depersBackupStatus+GlobalConstants.SEMICOLON_STRING + reOrganizeDataStatus;
 		}
 		return initializationStatus;
 	}

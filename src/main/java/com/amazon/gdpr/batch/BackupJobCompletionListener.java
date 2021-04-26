@@ -68,9 +68,9 @@ public class BackupJobCompletionListener extends JobExecutionListenerSupport {
 					moduleStatus, moduleStartDateTime, new Date(), backUpData, errorMessage);
 			moduleMgmtProcessor.initiateModuleMgmt(runModuleMgmt);
 			//runMgmtDaoImpl.updateRunComments(runId, backUpData);
-			if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(moduleStatus)) {
+			/*if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(moduleStatus)) {
 				tagDataProcessor.taggingInitialize(runId);
-			}
+			}*/
 		} catch(GdprException exception) {
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Exception : "+exception.getExceptionMessage());
 		}

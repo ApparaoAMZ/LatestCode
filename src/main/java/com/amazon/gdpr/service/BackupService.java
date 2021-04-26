@@ -1,6 +1,7 @@
 package com.amazon.gdpr.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,6 +32,7 @@ import com.amazon.gdpr.model.gdpr.output.RunModuleMgmt;
 import com.amazon.gdpr.model.gdpr.output.RunSummaryMgmt;
 import com.amazon.gdpr.processor.ModuleMgmtProcessor;
 import com.amazon.gdpr.processor.RunMgmtProcessor;
+import com.amazon.gdpr.processor.TagDataProcessor;
 import com.amazon.gdpr.util.GdprException;
 import com.amazon.gdpr.util.GlobalConstants;
 
@@ -70,6 +72,9 @@ public class BackupService {
 	
 	@Autowired
 	private BackupTableProcessorDaoImpl backupTableProcessorDaoImpl;
+	
+	@Autowired
+	TagDataProcessor tagDataProcessor;
 	
 	public String backupServiceInitiate(long runId) {
 		String CURRENT_METHOD = "backupServiceInitiate";
@@ -126,17 +131,20 @@ public class BackupService {
 				RunModuleMgmt runModuleMgmt = new RunModuleMgmt(runId, GlobalConstants.MODULE_BACKUPSERVICE,
 						GlobalConstants.SUB_MODULE_BACKUPSERVICE_JOB_INITIALIZE, moduleStatus, moduleStartDateTime,
 						new Date(), backupServiceStatus, errorDetails);
-				moduleMgmtProcessor.initiateModuleMgmt(runModuleMgmt);				
+				moduleMgmtProcessor.initiateModuleMgmt(runModuleMgmt);	
+				if(exceptionOccured || GlobalConstants.STATUS_FAILURE.equalsIgnoreCase(moduleMgmtProcessor.prevJobModuleStatus(runId))){
+					runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_FAILURE, backupServiceStatus);
+				}else{
+					runMgmtDaoImpl.updateRunComments(runId, backupServiceStatus);
+				}
 			} catch (GdprException exception) {
 				exceptionOccured = true;
 				backupServiceStatus = backupServiceStatus + exception.getExceptionMessage();
 				System.out.println(MODULE_DATABACKUP + " ::: " + CURRENT_METHOD + " :: " + backupServiceStatus);
 			}
 			try {
-				if(exceptionOccured || GlobalConstants.STATUS_FAILURE.equalsIgnoreCase(moduleMgmtProcessor.prevJobModuleStatus(runId))){
-					runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_FAILURE, backupServiceStatus);
-				}else{
-					runMgmtDaoImpl.updateRunComments(runId, backupServiceStatus);
+				if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(moduleStatus)) {
+					tagDataProcessor.taggingInitialize(runId);
 				}
 			} catch(Exception exception) {
 				exceptionOccured = true;
@@ -145,56 +153,89 @@ public class BackupService {
 			}
 		}
 	}
-	public String backupDepersonalizationTables(long runId) {
+
+	public String backupDepersonalizationTables(long runId) throws GdprException {
 		String CURRENT_METHOD = "backupDepersonalizationTables";
-		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + ":: Inside method");
 		Boolean exceptionOccured = false;
+		String backupData = CURRENT_CLASS + ":::" + CURRENT_METHOD + "::";
+		String errorDetails = "";
+		String moduleStatus = "";
+		String prevJobModuleStatus = "";
+
 		List<BackupTableDetails> lstBackupTableDetails = null;
 		Map<String, List<String>> mapbackuptable = null;
-		String selectColumns ="";
+		String selectColumns = "";
 		List<String> lstCols = new ArrayList<String>();
+		Date moduleStartDateTime = null;
 		long insertcount = 0;
 		lstBackupTableDetails = backupTableProcessorDaoImpl.fetchSFCOPYTableDetails();
-		mapbackuptable = lstBackupTableDetails.stream().collect(Collectors.toMap(BackupTableDetails::getBackupTableName, bkp -> {
-			List list = new ArrayList<String>();
-			list.add(bkp.getBackupTablecolumn());
-			return list;
-		}, (s, a) -> {
-			s.add(a.get(0));
-			return s;
-		}));
-		
-		System.out.println(" :::mapbackuptable:: "+mapbackuptable+":: Inside method");
-		
+		mapbackuptable = lstBackupTableDetails.stream()
+				.collect(Collectors.toMap(BackupTableDetails::getBackupTableName, bkp -> {
+					List list = new ArrayList<String>();
+					list.add(bkp.getBackupTablecolumn());
+					return list;
+				}, (s, a) -> {
+					s.add(a.get(0));
+					return s;
+				}));
+
+		System.out.println(" :::mapbackuptable:: " + mapbackuptable + ":: Inside method");
+
 		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
 		try {
-		
-		if(mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C)) {
-			lstCols=mapbackuptable.get(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C.toLowerCase());	
-			lstCols.remove("run_id");
-			selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
-			System.out.println(" :::selectColumns:: "+selectColumns+":: Inside method");
-		    String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_DEPERSONALIZATION__C (RUN_ID," + selectColumns + ")  select "+runId+" RUN_ID,"+selectColumns+" FROM SF_ARCHIVE.GDPR_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"' OR TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"'";
-		    System.out.println(" :::backupDataInsertQuery:: "+backupDataInsertQuery+":: Inside method");
-		    insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
-		} 
-		
-		if(mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C)) {
-			lstCols=mapbackuptable.get(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase());	
-			lstCols.remove("run_id");
-			selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
-			System.out.println(" :::selectColumns:: "+selectColumns+":: Inside method");
-		    String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID," + selectColumns + ")  select "+runId+" RUN_ID,"+selectColumns+" FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD')>='"+strLastFetchDate+"' OR TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"+strLastFetchDate+"'";
-		    System.out.println(" :::backupDataInsertQuery:: "+backupDataInsertQuery+":: Inside method");
-		    insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
-		} 
-		
-		}  catch(Exception exception) {
+			moduleStartDateTime = new Date();
+			if (mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C.toLowerCase())) {
+				lstCols = mapbackuptable.get(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C.toLowerCase());
+				lstCols.remove("run_id");
+				selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
+				System.out.println(" :::selectColumns:: " + selectColumns + ":: Inside method");
+				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_DEPERSONALIZATION__C (RUN_ID," + selectColumns
+						+ ")  select " + runId + " RUN_ID," + selectColumns
+						+ " FROM SF_ARCHIVE.GDPR_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD') >='"
+						+ strLastFetchDate + "' OR TO_CHAR(LASTMODIFIEDDATE, 'YYYY-MM-DD') >='" + strLastFetchDate
+						+ "'";
+				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
+				insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+			}
+
+			if (mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase())) {
+				lstCols = mapbackuptable.get(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase());
+				lstCols.remove("run_id");
+				selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
+				System.out.println(" :::selectColumns:: " + selectColumns + ":: Inside method");
+				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID,"
+						+ selectColumns + ")  select " + runId + " RUN_ID," + selectColumns
+						+ " FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD')>='"
+						+ strLastFetchDate + "' OR TO_CHAR(LASTMODIFIEDDATE, 'YYYY-MM-DD') >='" + strLastFetchDate
+						+ "'";
+				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
+				insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+			}
+			backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+
+		} catch (Exception exception) {
 			exceptionOccured = true;
-			exception.printStackTrace();
-			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: ");
+			backupData = backupData + exception.getMessage();
+			errorDetails = Arrays.toString(exception.getStackTrace());
 		}
-		return GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+		try {
+			prevJobModuleStatus = moduleMgmtProcessor.prevJobModuleStatus(runId);				
+			moduleStatus = (exceptionOccured || prevJobModuleStatus.equalsIgnoreCase(GlobalConstants.STATUS_FAILURE)) ? 
+					GlobalConstants.STATUS_FAILURE : GlobalConstants.STATUS_SUCCESS;
+			RunModuleMgmt runModuleMgmt = new RunModuleMgmt(runId, GlobalConstants.MODULE_BACKUPSERVICE,
+						GlobalConstants.SUB_MODULE_BACKUPSERVICE_DEPERSONALIZATION_DATA, moduleStatus,
+						moduleStartDateTime, new Date(), backupData, errorDetails);
+				moduleMgmtProcessor.initiateModuleMgmt(runModuleMgmt);
+				
+				
+		} catch (GdprException exception) {
+			backupData = backupData + GlobalConstants.ERR_MODULE_MGMT_INSERT;
+			System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + " :: " + backupData);
+			errorDetails = errorDetails + exception.getExceptionDetail();
+			throw new GdprException(backupData, errorDetails);
+		}
+		return backupData;
 	}
 
 	
