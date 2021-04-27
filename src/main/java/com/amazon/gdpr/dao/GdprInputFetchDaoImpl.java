@@ -140,7 +140,7 @@ public class GdprInputFetchDaoImpl {
 			String CURRENT_METHOD = "mapRow";
 			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 			
-			return new GdprHerokuTagging();
+			return new GdprHerokuTagging(rs.getString("NAME"),rs.getString("CATEGORY__C"),rs.getLong("COUNT__C"),rs.getString("ID_SPACE__C"),rs.getString("HEROKU_STATUS__C"),rs.getTimestamp("CREATED_DATE"));
 		}
 	}
 	
