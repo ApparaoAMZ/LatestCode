@@ -87,7 +87,7 @@ public class RunMgmtDaoImpl {
 		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
 		Date d = (Date) new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(strLastFetchDate);
 		Timestamp ts = new Timestamp(d.getTime());
-		jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS,"2021-04-30 00:00:00"});			
+		jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS,ts});			
 	}	
 
 	
