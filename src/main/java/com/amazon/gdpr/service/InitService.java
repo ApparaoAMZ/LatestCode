@@ -75,7 +75,8 @@ public class InitService {
 			if(! oldRun) {
 				String odasevaRunStatus = dataLoadProcessor.odasevaRunCheck(runId);
 				initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + odasevaRunStatus;
-				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {					
+				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {	
+					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
 					
 					String[] initServiceStatus = initialize(runId, lstCountry);
@@ -127,14 +128,14 @@ public class InitService {
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before Summary Processor : "+LocalTime.now());			
 			String summaryStatus = summaryDataProcessor.processSummaryData(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After Summary Processor : "+LocalTime.now());
-			String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
+			//String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before GDPR Data Processor : "+LocalTime.now());
 			String reOrganizeDataStatus = reOrganizeInputProcessor.reOrganizeData(runId, selectedCountries);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After GDPR Data Processor : "+LocalTime.now());			
 						
 			initializationStatus[1] = GlobalConstants.RUN_ANONYMIZATION_INSERT + insertRunAnonymizationCounts +
 					GlobalConstants.SEMICOLON_STRING + processBackupTableStatus + GlobalConstants.SEMICOLON_STRING + summaryStatus + 
-					GlobalConstants.SEMICOLON_STRING +depersBackupStatus+GlobalConstants.SEMICOLON_STRING + reOrganizeDataStatus;
+					GlobalConstants.SEMICOLON_STRING + reOrganizeDataStatus;
 		}
 		return initializationStatus;
 	}
