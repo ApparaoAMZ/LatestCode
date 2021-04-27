@@ -1,7 +1,11 @@
 package com.amazon.gdpr.dao;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +36,10 @@ public class RunMgmtDaoImpl {
 	@Autowired
 	@Qualifier("gdprJdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
+	
+
+	@Autowired
+	GdprOutputDaoImpl gdprOutputDaoImpl;
 	 
 	/**
 	 * Fetches the last run detail from the RunMgmt table
@@ -70,12 +78,15 @@ public class RunMgmtDaoImpl {
 	/**
 	 * Inserts a new row in RUN_MGMT
 	 * @param runName
+	 * @throws ParseException 
 	 */
-	public void initiateNewRun(String runName) {
+	public void initiateNewRun(String runName) throws ParseException {
 		String CURRENT_METHOD = "initiateNewRun";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
-		
-		jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS});			
+		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
+		Date d = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(strLastFetchDate);
+		Timestamp ts = new Timestamp(d.getTime());
+		jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS,strLastFetchDate});			
 	}	
 
 	
