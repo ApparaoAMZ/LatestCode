@@ -31,7 +31,7 @@ public class GdprScheduler {
 	@Scheduled(cron = "${gdpr.scheduler.cron.expression}")
 	public void gdprProcessSchedule() throws GdprException {
 		String CURRENT_METHOD = "gdprProcessSchedule";
-		String currentDate = DateTimeFormatter.ofPattern(GlobalConstants.DATE_FORMAT).format(LocalDateTime.now());	
+		String currentDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());	
 			
 		String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);					
 	}
