@@ -168,7 +168,8 @@ public class BackupService {
 		String selectColumns = "";
 		List<String> lstCols = new ArrayList<String>();
 		Date moduleStartDateTime = null;
-		long insertcount = 0;
+		long empinsertcount = 0;
+		long candidateinsertcount = 0;
 		lstBackupTableDetails = backupTableProcessorDaoImpl.fetchSFCOPYTableDetails();
 		mapbackuptable = lstBackupTableDetails.stream()
 				.collect(Collectors.toMap(BackupTableDetails::getBackupTableName, bkp -> {
@@ -196,7 +197,7 @@ public class BackupService {
 						+ strLastFetchDate + "' OR TO_CHAR(LASTMODIFIEDDATE, 'YYYY-MM-DD') >='" + strLastFetchDate
 						+ "'";
 				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
-				insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+				candidateinsertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
 			}
 
 			if (mapbackuptable.containsKey(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase())) {
@@ -210,9 +211,16 @@ public class BackupService {
 						+ strLastFetchDate + "' OR TO_CHAR(LASTMODIFIEDDATE, 'YYYY-MM-DD') >='" + strLastFetchDate
 						+ "'";
 				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
-				insertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
+				empinsertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
 			}
-			backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+			if(candidateinsertcount>0) {
+				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+			}else if(empinsertcount>0) {
+				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+			}
+			else {
+			backupData = GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE;
+			}
 
 		} catch (Exception exception) {
 			exceptionOccured = true;
