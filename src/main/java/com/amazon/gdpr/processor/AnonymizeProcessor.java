@@ -147,6 +147,11 @@ public class AnonymizeProcessor {
 				}else {					
 					runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_SUCCESS, depersonalizationDataStatus);
 				}
+				if(exceptionOccured || GlobalConstants.STATUS_FAILURE.equalsIgnoreCase(prevModuleStatus)){					
+				String herokuUpdate = "UPDATE SALESFORCE.GDPR_HEROKU_TAGGING__C SET HEROKU_STATUS__C = \'"
+    					+GlobalConstants.STATUS_DEPERSONALIZATION_COMPLETE+"\'";
+				int herokuStatus = backupServiceDaoImpl.gdprHerokuStatusUpdate(herokuUpdate);
+				}
 			} catch(Exception exception) {
 				exceptionOccured = true;
 				depersonalizationDataStatus = depersonalizationDataStatus + GlobalConstants.ERR_RUN_MGMT_UPDATE;

@@ -157,5 +157,12 @@ public class BackupServiceDaoImpl {
 		int updatedCount = jdbcTemplate.update(sqlQuery, new Object[]{runId});
 		return updatedCount;
 	}
-	
+	@Transactional
+	public int gdprHerokuStatusUpdate(String sqlQuery) {
+	    String CURRENT_METHOD = "gdprHerokuStatusUpdate";		
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		
+		int updatedCount = jdbcTemplate.update(sqlQuery);
+		return updatedCount;
+	}
 }
