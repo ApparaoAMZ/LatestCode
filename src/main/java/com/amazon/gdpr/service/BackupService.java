@@ -207,7 +207,7 @@ public class BackupService {
 				System.out.println(" :::selectColumns:: " + selectColumns + ":: Inside method");
 				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID,"
 						+ selectColumns + ")  select " + runId + " RUN_ID," + selectColumns
-						+ " FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C1 WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD')>='"
+						+ " FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C WHERE TO_CHAR(CREATEDDATE, 'YYYY-MM-DD')>='"
 						+ strLastFetchDate + "' OR TO_CHAR(LASTMODIFIEDDATE, 'YYYY-MM-DD') >='" + strLastFetchDate
 						+ "'";
 				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
