@@ -77,7 +77,8 @@ public class InitService {
 				initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + odasevaRunStatus;
 				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {	
 					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
-					if(!depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE)) {
+					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + depersBackupStatus;
+					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
 					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
 					
 					String[] initServiceStatus = initialize(runId, lstCountry);
