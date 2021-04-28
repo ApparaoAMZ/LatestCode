@@ -193,7 +193,9 @@ public class TagQueryProcessor {
 				parentAry = currentParent.contains(":") ? currentParent.split(":") : new String[]{currentParent};
 				parentCol = currentParentTableCol.contains(":") ? currentParentTableCol.split(":") : new String[]{currentParentTableCol};
 			}
-			String backupQuery = query[0] + query[1] + query[2]+" AND GDPR_DEPERSONALIZATION.COUNTRY_CODE = DL.COUNTRY_CODE AND "
+			//String backupQuery = query[0] + query[1] + query[2]+" AND GDPR_DEPERSONALIZATION.COUNTRY_CODE = DL.COUNTRY_CODE AND "
+					
+			String backupQuery = query[0] + query[1] + query[2]+" AND "
 					+ "GDPR_DEPERSONALIZATION.CREATED_DATE_TIME >DL.LAST_DATA_LOADED_DATE AND GDPR_DEPERSONALIZATION.HEROKU_STATUS='SCHEDULED' "
 					+ "AND RUN_ID = "+runId;
 			if(backupCompleteQuery.equalsIgnoreCase(""))
