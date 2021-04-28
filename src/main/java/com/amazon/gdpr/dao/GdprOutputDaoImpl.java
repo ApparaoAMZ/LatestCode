@@ -69,7 +69,7 @@ public class GdprOutputDaoImpl {
 		String CURRENT_METHOD = "updateDataLoad";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
-		return jdbcTemplate.update(SqlQueriesConstant.DATA_LOAD_UPDATE, new Object[]{runId, runId});	
+		return jdbcTemplate.update(SqlQueriesConstant.DATA_LOAD_UPDATE, new Object[]{runId});	
 	}
 			
 	/**

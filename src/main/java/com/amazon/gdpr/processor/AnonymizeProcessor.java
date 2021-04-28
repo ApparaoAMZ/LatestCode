@@ -147,7 +147,7 @@ public class AnonymizeProcessor {
 				}else {					
 					runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_SUCCESS, depersonalizationDataStatus);
 				}
-				if(exceptionOccured || GlobalConstants.STATUS_FAILURE.equalsIgnoreCase(prevModuleStatus)){					
+				if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(prevModuleStatus)){					
 				String herokuUpdate = "UPDATE SALESFORCE.GDPR_HEROKU_TAGGING__C SET HEROKU_STATUS__C = \'"
     					+GlobalConstants.STATUS_DEPERSONALIZATION_COMPLETE+"\'";
 				int herokuStatus = backupServiceDaoImpl.gdprHerokuStatusUpdate(herokuUpdate);
