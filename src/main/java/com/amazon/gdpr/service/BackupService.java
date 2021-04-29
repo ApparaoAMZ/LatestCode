@@ -159,6 +159,7 @@ public class BackupService {
 		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + ":: Inside method");
 		Boolean exceptionOccured = false;
 		String backupData = CURRENT_CLASS + ":::" + CURRENT_METHOD + "::";
+		String backupStatus = "";
 		String errorDetails = "";
 		String moduleStatus = "";
 		String prevJobModuleStatus = "";
@@ -215,16 +216,20 @@ public class BackupService {
 			}
 			if(candidateinsertcount>0) {
 				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+				backupStatus=GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
 			}else if(empinsertcount>0) {
 				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
+				backupStatus=GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
 			}
 			else {
 			backupData = GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE;
+			backupStatus=GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE;
 			}
 
 		} catch (Exception exception) {
 			exceptionOccured = true;
 			backupData = backupData + exception.getMessage();
+			backupStatus="Error in Backup Service to copy depersonalization data";
 			errorDetails = Arrays.toString(exception.getStackTrace());
 		}
 		try {
@@ -243,7 +248,7 @@ public class BackupService {
 			errorDetails = errorDetails + exception.getExceptionDetail();
 			throw new GdprException(backupData, errorDetails);
 		}
-		return backupData;
+		return backupStatus;
 	}
 
 	

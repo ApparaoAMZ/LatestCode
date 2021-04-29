@@ -66,7 +66,7 @@ public class InitService {
 		
 		String initServiceReturnStatus = "";
 		Boolean exceptionOccured = false;
-		List<String> lstCountry =null;
+		//List<String> lstCountry =null;
 				
 		try {
 			//Initiates the run. Establishes the run in the DB
@@ -79,9 +79,8 @@ public class InitService {
 				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {	
 					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + depersBackupStatus;
-					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
-					lstCountry =  dataLoadProcessor.fetchListCountries(runId);
-					}
+				//	if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
+					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
 					String[] initServiceStatus = initialize(runId, lstCountry);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
 					//}
