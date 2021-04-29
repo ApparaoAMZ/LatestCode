@@ -208,7 +208,7 @@ public class BackupService {
 				selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
 				String selectUpdatedColumns =  "GD." + selectColumns.replaceAll(",", ",GD.");
 				System.out.println(":::selectColumns:: " + selectColumns + ":: Inside method");
-				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID,"
+				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C1 (RUN_ID,"
 						+ selectColumns + ")  select DISTINCT " + runId + " RUN_ID," + selectUpdatedColumns
 						+ " FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C GD,GDPR.RUN_MGMT RM , GDPR.DATA_LOAD DL WHERE DL.STATUS='ACTIVE' "
 						+" AND (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
