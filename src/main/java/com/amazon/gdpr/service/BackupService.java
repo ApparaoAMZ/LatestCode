@@ -182,7 +182,7 @@ public class BackupService {
 					return s;
 				}));
 
-		System.out.println(" :::mapbackuptable:: " + mapbackuptable + ":: Inside method");
+		System.out.println(":::mapbackuptable:: " + mapbackuptable + ":: Inside method");
 
 		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
 		try {
