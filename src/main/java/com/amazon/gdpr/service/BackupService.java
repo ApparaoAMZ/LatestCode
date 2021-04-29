@@ -198,7 +198,7 @@ public class BackupService {
 						+ " FROM SF_ARCHIVE.GDPR_DEPERSONALIZATION__C  GD, GDPR.RUN_MGMT RM , GDPR.DATA_LOAD DL WHERE DL.STATUS='ACTIVE' "
 						+ "	AND (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
 						+ " AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND RM.RUN_ID = "+runId; 
-				System.out.println(" :::backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
+				System.out.println(" ::: backupDataInsertQuery:: " + backupDataInsertQuery + ":: Inside method");
 				candidateinsertcount = backupServiceDaoImpl.insertBackupTable(backupDataInsertQuery);
 			}
 
