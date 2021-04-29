@@ -159,7 +159,7 @@ public class BackupServiceDaoImpl {
 	}
 	@Transactional
 	public int gdprHerokuStatusUpdate(String sqlQuery) {
-	    String CURRENT_METHOD = "gdprHerokuStatusUpdate1";		
+	    String CURRENT_METHOD = "gdprHerokuStatusUpdate";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
 		int updatedCount = jdbcTemplate.update(sqlQuery);

@@ -66,6 +66,7 @@ public class InitService {
 		
 		String initServiceReturnStatus = "";
 		Boolean exceptionOccured = false;
+		List<String> lstCountry =null;
 				
 		try {
 			//Initiates the run. Establishes the run in the DB
@@ -79,11 +80,11 @@ public class InitService {
 					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + depersBackupStatus;
 					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
-					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
-					
+					lstCountry =  dataLoadProcessor.fetchListCountries(runId);
+					}
 					String[] initServiceStatus = initialize(runId, lstCountry);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
-					}
+					//}
 				}				
 			} 
 		} catch(GdprException exception) {
