@@ -191,10 +191,10 @@ public class BackupService {
 				lstCols = mapbackuptable.get(GlobalConstants.TBL_GDPR_DEPERSONALIZATION__C.toLowerCase());
 				lstCols.remove("run_id");
 				selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
-				selectColumns =  "GD." + selectColumns.replaceAll(",", ",GD.");
+				String selectUpdatedColumns =  "GD." + selectColumns.replaceAll(",", ",GD.");
 				System.out.println(" :::selectColumns:: " + selectColumns + ":: Inside method");
 				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_DEPERSONALIZATION__C (RUN_ID," + selectColumns
-						+ ")  select " + runId + " RUN_ID," + selectColumns
+						+ ")  select " + runId + " RUN_ID," + selectUpdatedColumns
 						+ " FROM SF_ARCHIVE.GDPR_DEPERSONALIZATION__C  GD, GDPR.RUN_MGMT RM , GDPR.DATA_LOAD DL WHERE DL.STATUS='ACTIVE' "
 						+ "	AND (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
 						+ " AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND RM.RUN_ID = "+runId; 
@@ -206,10 +206,10 @@ public class BackupService {
 				lstCols = mapbackuptable.get(GlobalConstants.TBL_GDPR_EMPLOYEE_DEPERSONALIZATION__C.toLowerCase());
 				lstCols.remove("run_id");
 				selectColumns = lstCols.stream().map(String::valueOf).collect(Collectors.joining(","));
-				selectColumns =  "GD." + selectColumns.replaceAll(",", ",GD.");
+				String selectUpdatedColumns =  "GD." + selectColumns.replaceAll(",", ",GD.");
 				System.out.println(" :::selectColumns:: " + selectColumns + ":: Inside method");
 				String backupDataInsertQuery = "INSERT INTO SF_COPY.GDPR_EMPLOYEE_DEPERSONALIZATION__C (RUN_ID,"
-						+ selectColumns + ")  select " + runId + " RUN_ID," + selectColumns
+						+ selectColumns + ")  select " + runId + " RUN_ID," + selectUpdatedColumns
 						+ " FROM SF_ARCHIVE.GDPR_EMPLOYEE_DEPERSONALIZATION__C GD,GDPR.RUN_MGMT RM , GDPR.DATA_LOAD DL WHERE DL.STATUS='ACTIVE' "
 						+" AND (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
 						+ " AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND RM.RUN_ID = "+runId; 
