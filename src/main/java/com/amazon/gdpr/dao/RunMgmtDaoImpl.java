@@ -84,10 +84,7 @@ public class RunMgmtDaoImpl {
 	public void initiateNewRun(String runName) throws ParseException {
 		String CURRENT_METHOD = "initiateNewRun";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
-		String strLastFetchDate = gdprOutputDaoImpl.fetchLastDataLoadedDate();
-		Date d = (Date) new SimpleDateFormat("yyyy-MM-dd").parse(strLastFetchDate);
-		Timestamp preDataLoadTime = new Timestamp(d.getTime());
-		jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS,preDataLoadTime});			
+			jdbcTemplate.update(RUNMGMT_INSERT_RUN, new Object[]{runName, GlobalConstants.STATUS_INPROGRESS});			
 	}	
 
 	

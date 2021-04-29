@@ -216,16 +216,13 @@ public class BackupService {
 			}
 			if(candidateinsertcount>0) {
 				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
-				backupStatus=GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
 			}else if(empinsertcount>0) {
 				backupData = GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
-				backupStatus=GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA;
 			}
 			else {
 			backupData = GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE;
-			backupStatus=GlobalConstants.MSG_BACKUPSERVICE_NO_DATA_TO_DEPERSONALIZE;
 			}
-
+			backupStatus=backupData;
 		} catch (Exception exception) {
 			exceptionOccured = true;
 			backupData = backupData + exception.getMessage();

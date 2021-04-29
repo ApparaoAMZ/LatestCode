@@ -7,11 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.amazon.gdpr.dao.BackupServiceDaoImpl;
 import com.amazon.gdpr.dao.RunMgmtDaoImpl;
 import com.amazon.gdpr.model.gdpr.output.RunSummaryMgmt;
 import com.amazon.gdpr.processor.AnonymizationFileProcessor;
 import com.amazon.gdpr.processor.BackupTableProcessor;
 import com.amazon.gdpr.processor.DataLoadProcessor;
+import com.amazon.gdpr.processor.ModuleMgmtProcessor;
 import com.amazon.gdpr.processor.ReOrganizeInputProcessor;
 import com.amazon.gdpr.processor.RunMgmtProcessor;
 import com.amazon.gdpr.processor.SummaryDataProcessor;
@@ -55,6 +57,12 @@ public class InitService {
 	
 	@Autowired
 	BackupService backupService;
+	
+	@Autowired
+	ModuleMgmtProcessor moduleMgmtProcessor;
+	
+	@Autowired
+	BackupServiceDaoImpl backupServiceDaoImpl;
 	/**
 	 * This method initiates the InitService activities
 	 * @param runName
@@ -66,8 +74,7 @@ public class InitService {
 		
 		String initServiceReturnStatus = "";
 		Boolean exceptionOccured = false;
-		//List<String> lstCountry =null;
-				
+		String prevModuleStatus = ""; 
 		try {
 			//Initiates the run. Establishes the run in the DB
 			runId =  runMgmtProcessor.initializeRun(runName);
@@ -79,11 +86,37 @@ public class InitService {
 				if(GlobalConstants.MSG_ODASEVA_RUN_DATA_EXIST.equalsIgnoreCase(odasevaRunStatus)) {	
 					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + depersBackupStatus;
-				//	if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
+					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
 					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
 					String[] initServiceStatus = initialize(runId, lstCountry);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
-					//}
+					}
+					else
+					{
+						try {
+							prevModuleStatus = moduleMgmtProcessor.prevJobModuleStatus(runId);
+							if (GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(prevModuleStatus)) {
+								dataLoadProcessor.updateDataLoad(runId);				
+								initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + GlobalConstants.MSG_DATALOAD_DTLS;
+				    		}
+							if(exceptionOccured || GlobalConstants.STATUS_FAILURE.equalsIgnoreCase(prevModuleStatus)){					
+								runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_FAILURE, initServiceReturnStatus);
+							}else {					
+								runMgmtDaoImpl.updateRunStatus(runId, GlobalConstants.STATUS_SUCCESS, initServiceReturnStatus);
+							}
+							if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(prevModuleStatus)){					
+							String herokuUpdate = "UPDATE SALESFORCE.GDPR_HEROKU_TAGGING__C SET HEROKU_STATUS__C = \'"
+			    					+GlobalConstants.STATUS_CLEARED+"\'";
+							int herokuStatus = backupServiceDaoImpl.gdprHerokuStatusUpdate(herokuUpdate);
+							
+							}
+						} catch(Exception exception) {
+							exceptionOccured = true;
+							exception.printStackTrace();
+							initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.ERR_RUN_MGMT_UPDATE;
+							System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+initServiceReturnStatus);
+						}
+					}
 				}				
 			} 
 		} catch(GdprException exception) {
