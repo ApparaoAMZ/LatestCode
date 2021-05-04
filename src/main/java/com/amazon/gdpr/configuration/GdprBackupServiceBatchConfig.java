@@ -220,7 +220,7 @@ public class GdprBackupServiceBatchConfig {
 			String countrycode = backupServiceInput.getCountryCode();
 			long sumId = backupServiceInput.getSummaryId();
 			int impactTableId = backupServiceInput.getImpactTableId();
-			 System.exit(0);
+			 
 			long insertcount = 0;
 			BackupServiceOutput backupServiceOutput = null;
 			String backupTableName = "";
