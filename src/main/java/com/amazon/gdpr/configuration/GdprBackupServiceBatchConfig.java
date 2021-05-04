@@ -113,7 +113,7 @@ public class GdprBackupServiceBatchConfig {
 		Boolean exceptionOccured = false;
 		String backupDataStatus = "";
 		String errorDetails = "";
-            System.exit(0);
+           
 			reader = new JdbcCursorItemReader<BackupServiceInput>();
 			reader.setDataSource(dataSource);
 			reader.setSql(gdprSummaryDataFetch + runId+" AND BACKUP_ROW_COUNT IS NULL ORDER BY RUN_ID, SUMMARY_ID");
@@ -220,7 +220,7 @@ public class GdprBackupServiceBatchConfig {
 			String countrycode = backupServiceInput.getCountryCode();
 			long sumId = backupServiceInput.getSummaryId();
 			int impactTableId = backupServiceInput.getImpactTableId();
-
+			 System.exit(0);
 			long insertcount = 0;
 			BackupServiceOutput backupServiceOutput = null;
 			String backupTableName = "";
