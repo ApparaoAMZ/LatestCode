@@ -212,6 +212,7 @@ public class TaggingBatchConfig {
 			String CURRENT_METHOD = "process";		
 			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method. ");		
 			//arg0.setTableName(mapTableIdToName.get(arg0.getTableId()));
+			System.exit(0);
 			return arg0;
 		}
 	}
