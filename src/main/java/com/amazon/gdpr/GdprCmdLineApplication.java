@@ -50,10 +50,11 @@ public class GdprCmdLineApplication  implements CommandLineRunner {
 		
 		String runStatus=runMgmtProcessor.runCheck();
 		if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_RERUN)) {
-			System.out.println("Testing Application::::#$##$##%%##:::RERUN");
+			System.out.println("Testing gdprProcessScheduleStatus::::#$##$##%%##:::RERUN");
 			String currentDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());	
 			
-			String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);		
+			String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);	
+			System.out.println("Testing gdprProcessScheduleStatus::::#$##$##%%##:::RERUN");
 			
 		}
 	}
