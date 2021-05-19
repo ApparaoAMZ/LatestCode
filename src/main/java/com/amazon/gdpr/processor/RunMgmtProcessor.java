@@ -146,15 +146,15 @@ public class RunMgmtProcessor {
 		String CURRENT_METHOD = "runCheck";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Run checking::::.");
 		long runId = 0;		
-		String runStatus = "";
-		String errorDetails = GlobalConstants.STATUS_SUCCESS;
+		String runStatus = GlobalConstants.STATUS_SUCCESS;
+		String errorDetails = "";
 		
 		try {
 			RunMgmt runMgmt = runMgmtDaoImpl.fetchLastRunDetail();
 			runStatus=runMgmt.getRunStatus();
 			runId=runMgmt.getRunId();
 			System.out.println("Testing Application:"+runStatus+"::::#$##$##%%##:::"+runId);
-			if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_FAILURE)) {
+			if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_INPROGRESS)) {
 				runStatus=GlobalConstants.STATUS_RERUN;
 				runMgmtDaoImpl.updateRunMgmt(runStatus, runId);
 			}
