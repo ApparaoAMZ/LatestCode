@@ -160,6 +160,18 @@ public class RunMgmtDaoImpl {
 		return lstRunModuleMgmt;
 	}
 	
+	/**
+	 * Updates the run comments for the particular run
+	 * @param runId
+	 * @param runComments
+	 */
+	public void updateRunMgmt( String runStatus,long runId) {
+		String CURRENT_METHOD = "updateRunMgmt";		
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
+		if(runStatus != null );
+		jdbcTemplate.update(SqlQueriesConstant.RUN_MGMT_UPDATE, new Object[]{runStatus, runId});			
+	}
+	
 	/****************************************************************************************
 	 * This rowMapper converts the row data from RUN_MODULE_MGMT table to RunModuleMgmt Object 
 	 ****************************************************************************************/

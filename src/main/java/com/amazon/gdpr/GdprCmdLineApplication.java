@@ -1,5 +1,7 @@
 package com.amazon.gdpr;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.amazon.gdpr.processor.RunMgmtProcessor;
 import com.amazon.gdpr.service.InitService;
 import com.amazon.gdpr.util.GlobalConstants;
 
@@ -26,6 +29,9 @@ public class GdprCmdLineApplication  implements CommandLineRunner {
 	@Autowired
 	InitService initService;	
 	
+	@Autowired
+	RunMgmtProcessor runMgmtProcessor;
+	
 	/**
 	 * This is the class initiated during command line runtime
 	 * @param args
@@ -41,6 +47,15 @@ public class GdprCmdLineApplication  implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("Testing Application::::#$##$##%%##");
+		
+		String runStatus=runMgmtProcessor.runCheck();
+		if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_RERUN)) {
+			System.out.println("Testing Application::::#$##$##%%##:::RERUN");
+			String currentDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());	
+			
+			String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);		
+			
+		}
 	}
 
 	
