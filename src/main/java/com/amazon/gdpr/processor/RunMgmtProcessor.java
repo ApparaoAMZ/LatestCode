@@ -137,37 +137,6 @@ public class RunMgmtProcessor {
 		return runId;
 	}
 	
-	/**
-	 * A new run is initiated in this method. An entry is made in the RunMgmt table for this run
-	 * @param runName The description of the current run is being maintained
-	 * @return The RunId is returned back to controller and this is passed on to all methods
-	 */
-	public String runCheck() throws GdprException {
-		String CURRENT_METHOD = "runCheck";		
-		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Run checking::::.");
-		long runId = 0;		
-		String runStatus = GlobalConstants.STATUS_SUCCESS;
-		String errorDetails = "";
-		
-		try {
-			RunMgmt runMgmt = runMgmtDaoImpl.fetchLastRunDetail();
-			runStatus=runMgmt.getRunStatus();
-			runId=runMgmt.getRunId();
-			System.out.println("Testing Application:"+runStatus+"::::#$##$##%%##:::"+runId);
-			if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_INPROGRESS)) {
-				runStatus=GlobalConstants.STATUS_RERUN;
-				runMgmtDaoImpl.updateRunMgmt(runStatus, runId);
-			}
-			System.out.println("Testing Application:"+runStatus+"::::&&&&&&&&:::"+runId);
-		} catch(Exception exception) {	
-			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_NEW_RUN_INITIATION);
-			exception.printStackTrace();
-			errorDetails = exception.getMessage();
-			throw new GdprException(GlobalConstants.ERR_NEW_RUN_INITIATION, errorDetails);
-		}
-		return runStatus;
-	}
-	
 	public GdprInput loadCountryDetail() throws GdprException {
 		String CURRENT_METHOD = "loadCountryDetail";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Loading the GdprInput Object. ");
@@ -311,9 +280,6 @@ public class RunMgmtProcessor {
 					} else {						
 						pastRunStatus = "The job has failed during initialization module. Please refresh the tables and have a new run. ";
 					}
-					System.out.println("subModuleName:::"+subModuleName);
-					System.out.println("moduleStatus:::"+moduleStatus);
-					System.out.println("pastRunStatus:::"+pastRunStatus);
 					break;
 				}
 				

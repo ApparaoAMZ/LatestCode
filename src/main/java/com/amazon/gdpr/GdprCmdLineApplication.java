@@ -1,17 +1,13 @@
 package com.amazon.gdpr;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.amazon.gdpr.processor.RunMgmtProcessor;
 import com.amazon.gdpr.service.InitService;
 import com.amazon.gdpr.util.GlobalConstants;
 
@@ -22,15 +18,12 @@ import com.amazon.gdpr.util.GlobalConstants;
  ****************************************************************************************/
 @SpringBootApplication
 @EnableScheduling
-public class GdprCmdLineApplication  implements CommandLineRunner {
+public class GdprCmdLineApplication {// implements CommandLineRunner {
 	
 	private static String CURRENT_CLASS		 		= GlobalConstants.CLS_GDPRCMDLINEAPPLICATION;
 	
-	@Autowired
-	InitService initService;	
-	
-	@Autowired
-	RunMgmtProcessor runMgmtProcessor;
+	//@Autowired
+	//InitService initService;	
 	
 	/**
 	 * This is the class initiated during command line runtime
@@ -43,21 +36,13 @@ public class GdprCmdLineApplication  implements CommandLineRunner {
 		SpringApplication.run(GdprCmdLineApplication.class, args);
 	}
 	
-	@Override
-	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("Testing Application::::#$##$##%%##");
+	public void run(){
+		String CURRENT_METHOD = "run";		
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
-		String runStatus=runMgmtProcessor.runCheck();
-		if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_RERUN)) {
-			System.out.println("Testing gdprProcessScheduleStatus::::#$##$##%%##:::RERUN");
-			String currentDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());	
-			
-			String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);	
-			System.out.println("Testing gdprProcessScheduleStatus:ASS"+gdprProcessScheduleStatus);
-			
-		}
+		List<String> lstCountryCode = new ArrayList<String>();
+		lstCountryCode.add("DEU");
+		//String status = initService.initService("Test Run", null);
+		//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: status "+status);
 	}
-
-	
 }

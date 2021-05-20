@@ -106,7 +106,7 @@ public class InitService {
 							}
 							if(GlobalConstants.STATUS_SUCCESS.equalsIgnoreCase(prevModuleStatus)){					
 							String herokuUpdate = "UPDATE SALESFORCE.GDPR_HEROKU_TAGGING__C SET HEROKU_STATUS__C = \'"
-			    					+GlobalConstants.STATUS_CLEARED+"\'";
+			    					+GlobalConstants.STATUS_CLEARED+"\' WHERE HEROKU_STATUS__C = '' OR HEROKU_STATUS__C IS NULL";
 							int herokuStatus = backupServiceDaoImpl.gdprHerokuStatusUpdate(herokuUpdate);
 							System.out.println("herokuUpdate::"+herokuUpdate);
 							}
