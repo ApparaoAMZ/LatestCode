@@ -213,7 +213,7 @@ public class TagQueryProcessor {
 	public Map<String, ImpactTable> fetchImpactTableMap(long runId) {
 		
 		String CURRENT_METHOD = "fetchImpactTableMap";
-		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + " :: Inside method");
+		System.out.println(CURRENT_CLASS + " : :: " + CURRENT_METHOD + " :: Inside method");
 		Map<String, ImpactTable> mapImpactTable = new HashMap<String, ImpactTable>();
 		try {
 			List<ImpactTable> lstImpactTable = gdprInputFetchDaoImpl.fetchImpactTable(); 
