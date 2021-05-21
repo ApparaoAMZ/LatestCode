@@ -102,10 +102,12 @@ public class TagQueryProcessor {
 						for(int columnNameIterator = 0; columnNameIterator < colLength; columnNameIterator++) {  
 							mapSummaryInputs.get(columnNames[columnNameIterator]);
 							query[0] = query[0] +", "+currentTableName +"."+columnNames[columnNameIterator]+" "+columnNames[columnNameIterator];
+							if(!columnNames[columnNameIterator].equalsIgnoreCase("COUNTRY_CODE")) {
 							query[2] = query[2] +" AND "+currentTableName +"."+columnNames[columnNameIterator]+" = "+
 									((columnNames[columnNameIterator].equalsIgnoreCase(GlobalConstants.KEY_CATEGORY_ID)) ? 
 											Integer.parseInt(mapSummaryInputs.get(columnNames[columnNameIterator])) : 
 												"\'"+mapSummaryInputs.get(columnNames[columnNameIterator])+"\'");
+							}
 						}						
 					}
 				}
@@ -181,11 +183,13 @@ public class TagQueryProcessor {
 						for(int columnNameIterator = 0; columnNameIterator < colLength; columnNameIterator++) {  
 							mapSummaryInputs.get(columnNames[columnNameIterator]);
 							//query[0] = query[0] +", "+currentTableName +"."+columnNames[columnNameIterator]+" "+columnNames[columnNameIterator];
+							if(!columnNames[columnNameIterator].equalsIgnoreCase("COUNTRY_CODE")) {
 							query[2] = query[2] +" AND "+currentTableName +"."+columnNames[columnNameIterator]+" = "+
 									((columnNames[columnNameIterator].equalsIgnoreCase(GlobalConstants.KEY_CATEGORY_ID)) ? 
 											Integer.parseInt(mapSummaryInputs.get(columnNames[columnNameIterator])) : 
 												"\'"+mapSummaryInputs.get(columnNames[columnNameIterator])+"\'");
 						}						
+						}
 					}
 				}
 				String currentParent = currentImpactTable.getParentTable();
