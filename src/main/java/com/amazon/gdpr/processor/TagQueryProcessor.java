@@ -35,7 +35,7 @@ public class TagQueryProcessor {
 			String tableName = runSummaryMgmt.getImpactTableName();
 			mapSummaryInputs = new HashMap<String, String>();
 			mapSummaryInputs.put(GlobalConstants.KEY_CATEGORY_ID, String.valueOf(runSummaryMgmt.getCategoryId()));
-			mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, runSummaryMgmt.getCountryCode());
+			//mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, runSummaryMgmt.getCountryCode());
 			
 			lstTableHierarchy = new ArrayList<String>();
 			runSummaryMgmt.setTaggedQueryLoad(fetchCompleteTaggedQuery(tableName, mapSummaryInputs, runId));

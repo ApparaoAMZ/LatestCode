@@ -85,7 +85,7 @@ public class ReOrganizeInputBatchConfig {
 	@Bean
 	@StepScope
 	public JdbcCursorItemReader<GdprDepersonalizationInput> gdprDepersonalizationDBreader(@Value("#{jobParameters[RunId]}") long runId,
-			@Value("#{jobParameters[CountryCode]}") String countryCode, 
+			
 			@Value("#{jobParameters[StartDate]}") Date moduleStartDateTime) {
 					
 		String CURRENT_METHOD = "reader";		
@@ -119,7 +119,7 @@ public class ReOrganizeInputBatchConfig {
 				+ "DL.STATUS='ACTIVE' AND "
 				+ "(GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
 				+ "AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND RM.RUN_ID = "+runId
-				+ " AND GD.COUNTRY_CODE__C =  \'"+countryCode+"\' ORDER BY GD.CANDIDATE__C";
+				+ "  ORDER BY GD.CANDIDATE__C";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: GDPR Depersonalization Data Fetch Query : "+gdprDepersonalizationDataFetch); 
 		JdbcCursorItemReader<GdprDepersonalizationInput> reader = new JdbcCursorItemReader<GdprDepersonalizationInput>();
 		reader.setDataSource(dataSource);
@@ -235,7 +235,7 @@ public class ReOrganizeInputBatchConfig {
 		Step step = null;
 		step = stepBuilderFactory.get("reorganizeInputStep")
 			.<GdprDepersonalizationInput, List<GdprDepersonalizationOutput>> chunk(SqlQueriesConstant.BATCH_ROW_COUNT)
-			.reader(gdprDepersonalizationDBreader(0, "", new Date()))
+			.reader(gdprDepersonalizationDBreader(0,  new Date()))
 			.processor(new ReorganizeDataProcessor())
 			.build();
 		return step;		

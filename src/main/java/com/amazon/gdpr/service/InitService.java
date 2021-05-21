@@ -68,7 +68,7 @@ public class InitService {
 	 * @param runName
 	 * @return
 	 */
-	public String initService(String runName, List<String> selectedCountries) {
+	public String initService(String runName) {
 		String CURRENT_METHOD = "initService";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
 		
@@ -87,8 +87,8 @@ public class InitService {
 					String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + depersBackupStatus;
 					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
-					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
-					String[] initServiceStatus = initialize(runId, lstCountry);
+					//List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
+					String[] initServiceStatus = initialize(runId);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
 					}
 					else
@@ -144,14 +144,14 @@ public class InitService {
 	 * @param runId
 	 * @return
 	 */
-	public String[] initialize(long runId, List<String> selectedCountries) throws GdprException {
+	public String[] initialize(long runId) throws GdprException {
 		
 		String CURRENT_METHOD = "initialize";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
 		String[] initializationStatus = new String[2];
 		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before Anonymization Processor : "+LocalTime.now());
-		int insertRunAnonymizationCounts = anonymizationFileProcessor.loadRunAnonymization(runId, selectedCountries);		
+		int insertRunAnonymizationCounts = anonymizationFileProcessor.loadRunAnonymization(runId);		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After Anonymization Processor : "+LocalTime.now());
 		if(insertRunAnonymizationCounts == 0) {
 			initializationStatus[0] = GlobalConstants.STATUS_FAILURE;
@@ -167,7 +167,7 @@ public class InitService {
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After Summary Processor : "+LocalTime.now());
 			//String depersBackupStatus=backupService.backupDepersonalizationTables(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Before GDPR Data Processor : "+LocalTime.now());
-			String reOrganizeDataStatus = reOrganizeInputProcessor.reOrganizeData(runId, selectedCountries);
+			String reOrganizeDataStatus = reOrganizeInputProcessor.reOrganizeData(runId);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: After GDPR Data Processor : "+LocalTime.now());			
 						
 			initializationStatus[1] = GlobalConstants.RUN_ANONYMIZATION_INSERT + insertRunAnonymizationCounts +

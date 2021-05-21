@@ -76,7 +76,7 @@ public class GdprProcessController {
 		//System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + " :: Countries : "+gdprInput.getCountries());
 		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + " :: Countries : "+gdprInput.getLstCountry().toString());
 			
-		String initServiceStatus =  initService.initService(runName, gdprInput.getLstCountry());	
+		String initServiceStatus =  initService.initService(runName);	
 		
 		GdprInput gdprInputSubmitted = initService.loadGdprForm();
 		

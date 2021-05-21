@@ -21,12 +21,10 @@ public class SummaryData {
 	 * @param transformationType
 	 * @param impactTableId
 	 */
-	public SummaryData(int categoryId, String region, String countryCode, String impactTableName, String impactSchema, 
+	public SummaryData(int categoryId, String impactTableName, String impactSchema, 
 			String impactFieldName, String impactFieldType, String transformationType, int impactTableId) {
 		super();
 		this.categoryId = categoryId;
-		this.region = region;
-		this.countryCode = countryCode;
 		this.impactSchema = impactSchema;
 		this.impactTableName = impactTableName;
 		this.impactFieldName = impactFieldName;

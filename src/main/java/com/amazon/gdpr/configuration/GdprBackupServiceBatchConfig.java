@@ -256,7 +256,7 @@ public class GdprBackupServiceBatchConfig {
 				//String completeQuery = fetchCompleteBackupDataQuery(impactTableName, mapImpacttable, backupServiceInput,
 						//selectColumns, runId);
 				mapSummaryInputs.put(GlobalConstants.KEY_CATEGORY_ID, String.valueOf(catid));
-				mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, countrycode);
+				//mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, countrycode);
 				String completeQuery = tagQueryProcessor.fetchCompleteBackupDataQuery(impactTableName,  mapSummaryInputs,
 				   selectColumns, runId);
 				completeQuery = completeQuery.replaceAll("TAG.", "SF_ARCHIVE.");
