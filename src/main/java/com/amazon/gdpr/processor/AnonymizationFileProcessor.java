@@ -70,7 +70,7 @@ public class AnonymizationFileProcessor {
 		
 		Boolean exceptionOccured = false;
 		Date moduleStartDateTime = null;
-		List<String> selectedCountries=new ArrayList<String>();
+		//List<String> selectedCountries=null;
 		List<Country> lstCandCountry = null;
 		List<Country> lstEmpCountry = null;
 		String errorDetails = "";
@@ -78,13 +78,13 @@ public class AnonymizationFileProcessor {
 		
 		try {
 			moduleStartDateTime = new Date();
-			selectedCountries.addAll(selectedCandCountries);
-			selectedCountries.addAll(selectedEmpCountries);
-			List<String> listWithoutDuplicates = selectedCountries.stream().distinct().collect(Collectors.toList());
-			lstCandCountry = gdprInputFetchDaoImpl.fetchCountry(listWithoutDuplicates);
-			//lstEmpCountry = gdprInputFetchDaoImpl.fetchCountry(selectedEmpCountries);
+			//selectedCountries.addAll(selectedCandCountries);
+			//selectedCountries.addAll(selectedEmpCountries);
+			//List<String> listWithoutDuplicates = selectedCountries.stream().distinct().collect(Collectors.toList());
+			lstCandCountry = gdprInputFetchDaoImpl.fetchCountry(selectedCandCountries);
+			lstEmpCountry = gdprInputFetchDaoImpl.fetchCountry(selectedEmpCountries);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: selectedCountries : "+selectedCandCountries.toString());
-			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstEmpCountry.toString());
+			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstEmpCountry.toString());
 		}catch (Exception exception) {	
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_FETCH_COUNTRY_DETAIL);
 			exceptionOccured = true;
@@ -97,18 +97,18 @@ public class AnonymizationFileProcessor {
 				if(lstCandCountry != null && lstCandCountry.size() > 0){
 					for(Country country : lstCandCountry){
 						insertRunAnonymizationCount = insertRunAnonymizationCount + 
-								gdprOutputDaoImpl.batchInsertRunAnonymizeMapping(runId, country.getCountryCode(), country.getRegion());
+								gdprOutputDaoImpl.batchInsertRunAnonymizeMapping(runId, country.getCountryCode(), country.getRegion(),"CANDIDATE");
 					}
 					anonymizationProcessStatus  = anonymizationProcessStatus + GlobalConstants.RUN_ANONYMIZATION_INSERT+insertRunAnonymizationCount;
 				}
 				
-			/*	if(lstEmpCountry != null && lstEmpCountry.size() > 0){
+				if(lstEmpCountry != null && lstEmpCountry.size() > 0){
 					for(Country country : lstEmpCountry){
 						insertRunAnonymizationCount = insertRunAnonymizationCount + 
 								gdprOutputDaoImpl.batchInsertRunAnonymizeMapping(runId, country.getCountryCode(), country.getRegion(),"EMPLOYEE");
 					}
 					anonymizationProcessStatus  = anonymizationProcessStatus + GlobalConstants.RUN_ANONYMIZATION_INSERT+insertRunAnonymizationCount;
-				}*/
+				}
 			}			
 		} catch (Exception exception) {	
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_RUN_ANONYMIZATION_LOAD);
