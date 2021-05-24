@@ -70,7 +70,7 @@ public class AnonymizationFileProcessor {
 		
 		Boolean exceptionOccured = false;
 		Date moduleStartDateTime = null;
-		List<String> selectedCountries=null;
+		List<String> selectedCountries=new ArrayList<String>();
 		List<Country> lstCandCountry = null;
 		List<Country> lstEmpCountry = null;
 		String errorDetails = "";
