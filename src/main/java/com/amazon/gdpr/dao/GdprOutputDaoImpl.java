@@ -35,11 +35,11 @@ public class GdprOutputDaoImpl {
 	 * @param lstImpactField
 	 * @return
 	 */	
-	public int batchInsertRunAnonymizeMapping(long runId, String countryCode, String region) {
+	public int batchInsertRunAnonymizeMapping(long runId, String countryCode, String region,String recType) {
 		String CURRENT_METHOD = "fetchCategoryDetails";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: Inside method");
 		
-		return jdbcTemplate.update(SqlQueriesConstant.RUN_ANONYMIZATION_INSERT, new Object[]{runId, countryCode, region, countryCode});		
+		return jdbcTemplate.update(SqlQueriesConstant.RUN_ANONYMIZATION_INSERT, new Object[]{runId, countryCode, region, countryCode, recType});		
 	}
 	
 	/**

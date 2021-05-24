@@ -61,22 +61,24 @@ public class ReOrganizeInputProcessor {
 	@Autowired
 	BackupService backupService;
 			
-	public String reOrganizeData(long runId, List<String> selectedCountries) throws GdprException {
+	public String reOrganizeData(long runId, List<String> selectedCandCountries,List<String> selectedEmpCountries) throws GdprException {
 		String CURRENT_METHOD = "reOrganizeData";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 			
-		JobThread jobThread = new JobThread(runId, selectedCountries);
+		JobThread jobThread = new JobThread(runId, selectedCandCountries,selectedEmpCountries);
 		jobThread.start();
 		return GlobalConstants.MSG_REORGANIZEINPUT_JOB;
 	}
 	
 	class JobThread extends Thread {
 		long runId;
-		List<String> selectedCountries ;
+		List<String> selectedCandCountries ;
+		List<String> selectedEmpCountries ;
 		
-		JobThread(long runId, List<String> selectedCountries){
+		JobThread(long runId, List<String> selectedCandCountries,List<String> selectedEmpCountries){
 			this.runId = runId;
-			this.selectedCountries = selectedCountries;
+			this.selectedCandCountries = selectedCandCountries;
+			this.selectedEmpCountries = selectedEmpCountries;
 		}
 		
 		@Override
@@ -89,10 +91,10 @@ public class ReOrganizeInputProcessor {
 			String moduleStatus = "";
 			String prevJobModuleStatus = "";
 				
-			if(selectedCountries != null && selectedCountries.size() > 0) {
+			if(selectedCandCountries != null && selectedCandCountries.size() > 0) {
 				try {
 		    		moduleStartDateTime = new Date();	    				    		
-					for(String currentCountry : selectedCountries) { 	    				    		
+					for(String currentCountry : selectedCandCountries) { 	    				    		
 						JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
 						jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_RUN_ID, runId);
 						jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_JOB_ID, new Date().getTime());
@@ -118,7 +120,7 @@ public class ReOrganizeInputProcessor {
 				}
 				if (!exceptionOccured) {
 					try {						
-						for(String currentCountry : selectedCountries) { 	    				    	
+						for(String currentCountry : selectedEmpCountries) { 	    				    	
 							JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
 							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_RUN_ID, runId);
 							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_JOB_ID, new Date().getTime());

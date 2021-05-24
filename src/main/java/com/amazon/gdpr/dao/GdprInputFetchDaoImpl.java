@@ -153,9 +153,23 @@ public class GdprInputFetchDaoImpl {
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
 		@SuppressWarnings("unchecked")
-		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_COUNTRIES_FETCH, new Object[]{runId, runId}, new GdprCountriesFetch());
+		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_COUNTRIES_FETCH, new Object[]{runId}, new GdprCountriesFetch());
 		return lstCountries;
 	}
+	
+	/**
+	 * Fetches the GDPR_HEROKU_TAGGING Table rows
+	 * @return List of GdprHerokuTagging
+	 */
+	public List<String> fetchEmpCountries(long runId){
+		String CURRENT_METHOD = "fetchEmpCountries";
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		
+		@SuppressWarnings("unchecked")
+		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_EMPLOYEE_COUNTRIES_FETCH, new Object[]{runId}, new GdprCountriesFetch());
+		return lstCountries;
+	}
+	
 	
 	/****************************************************************************************
 	 * This rowMapper converts the row data from GDPR_HEROKU_TAGGING table to GdprHerokuTagging Object 

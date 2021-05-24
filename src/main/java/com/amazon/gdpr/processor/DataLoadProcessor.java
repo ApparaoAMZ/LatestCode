@@ -125,5 +125,21 @@ public class DataLoadProcessor {
 			throw new GdprException(fetchCountriesStatus, exception.getMessage());
 		}
 		return lstCountries;
-	}	
+	}
+	
+	public List<String> fetchListEmpCountries(long runId) throws GdprException {
+		Boolean exceptionOccured = false;
+		String fetchCountriesStatus = "";
+		List<String> lstEmpCountries;
+		
+		try {
+			lstEmpCountries = gdprInputFetchDaoImpl.fetchEmpCountries(runId);							
+		} catch(Exception exception) {
+			exceptionOccured = true;
+			exception.printStackTrace();
+			fetchCountriesStatus = fetchCountriesStatus + GlobalConstants.ERR_GDPR_COUNTRIES_FETCH;
+			throw new GdprException(fetchCountriesStatus, exception.getMessage());
+		}
+		return lstEmpCountries;
+	}
 }
