@@ -61,11 +61,11 @@ public class ReOrganizeInputProcessor {
 	@Autowired
 	BackupService backupService;
 			
-	public String reOrganizeData(long runId) throws GdprException {
+	public String reOrganizeData(long runId, List<String> selectedCountries) throws GdprException {
 		String CURRENT_METHOD = "reOrganizeData";
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 			
-		JobThread jobThread = new JobThread(runId);
+		JobThread jobThread = new JobThread(runId, selectedCountries);
 		jobThread.start();
 		return GlobalConstants.MSG_REORGANIZEINPUT_JOB;
 	}
@@ -74,9 +74,9 @@ public class ReOrganizeInputProcessor {
 		long runId;
 		List<String> selectedCountries ;
 		
-		JobThread(long runId){
+		JobThread(long runId, List<String> selectedCountries){
 			this.runId = runId;
-			
+			this.selectedCountries = selectedCountries;
 		}
 		
 		@Override
@@ -89,21 +89,22 @@ public class ReOrganizeInputProcessor {
 			String moduleStatus = "";
 			String prevJobModuleStatus = "";
 				
+			if(selectedCountries != null && selectedCountries.size() > 0) {
 				try {
 		    		moduleStartDateTime = new Date();	    				    		
-					    				    		
+					for(String currentCountry : selectedCountries) { 	    				    		
 						JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
 						jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_RUN_ID, runId);
 						jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_JOB_ID, new Date().getTime());
 						jobParameterBuilder.addDate(GlobalConstants.JOB_INPUT_START_DATE, new Date());
-						//jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_COUNTRY_CODE, currentCountry);
+						jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_COUNTRY_CODE, currentCountry);
 						jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_RECORDTYPE, GlobalConstants.JOB_INPUT_CAN_RECORD);
 						
 						System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: JobParameters set ");
 						JobParameters jobParameters = jobParameterBuilder.toJobParameters();
 		
 						jobLauncher.run(processreorganizeInputJob, jobParameters);
-					
+					}
 					reOrganizeDataStatus = GlobalConstants.MSG_CAN_REORGANIZEINPUT_JOB;
 		    		
 		    						
@@ -117,17 +118,19 @@ public class ReOrganizeInputProcessor {
 				}
 				if (!exceptionOccured) {
 					try {						
+						for(String currentCountry : selectedCountries) { 	    				    	
 							JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
 							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_RUN_ID, runId);
 							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_JOB_ID, new Date().getTime());
 							jobParameterBuilder.addDate(GlobalConstants.JOB_INPUT_START_DATE, new Date());
-							//jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_COUNTRY_CODE, currentCountry);
+							jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_COUNTRY_CODE, currentCountry);
 							jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_RECORDTYPE, GlobalConstants.JOB_INPUT_EMP_RECORD);
 							
 							System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: JobParameters set ");
 							JobParameters jobParameters = jobParameterBuilder.toJobParameters();
 			
 							jobLauncher.run(processReorganizeInputEmpJob, jobParameters);
+						}
 						reOrganizeDataStatus = reOrganizeDataStatus + GlobalConstants.MSG_EMP_REORGANIZEINPUT_JOB;	    		
 		    						
 					} catch (JobExecutionAlreadyRunningException | JobRestartException
@@ -139,7 +142,9 @@ public class ReOrganizeInputProcessor {
 						errorDetails = exception.getStackTrace().toString();
 					}
 				}
-					
+			} else {
+    			reOrganizeDataStatus = "No countries selected to reorganize. ";
+    		}			
 	    	try {
 				prevJobModuleStatus = moduleMgmtProcessor.prevJobModuleStatus(runId);				
 				moduleStatus = (exceptionOccured || prevJobModuleStatus.equalsIgnoreCase(GlobalConstants.STATUS_FAILURE)) ? 

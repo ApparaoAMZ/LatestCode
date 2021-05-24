@@ -63,7 +63,7 @@ public class AnonymizationFileProcessor {
 	 * @param runId
 	 * @return
 	 */
-	public int loadRunAnonymization(long runId) throws GdprException {
+	public int loadRunAnonymization(long runId, List<String> selectedCountries) throws GdprException {
 		String CURRENT_METHOD = "loadRunAnonymization";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		int insertRunAnonymizationCount = 0;
@@ -74,15 +74,28 @@ public class AnonymizationFileProcessor {
 		String errorDetails = "";
 		String anonymizationProcessStatus = "";
 		
-		
+		try {
+			moduleStartDateTime = new Date();
+			lstCountry = gdprInputFetchDaoImpl.fetchCountry(selectedCountries);
+			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: selectedCountries : "+selectedCountries.toString());
+			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstCountry.toString());
+		}catch (Exception exception) {	
+			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_FETCH_COUNTRY_DETAIL);
+			exceptionOccured = true;
+			exception.printStackTrace();
+			errorDetails = exception.getMessage();
+		}
 		
 		try {
 			if(! exceptionOccured) {
+				if(lstCountry != null && lstCountry.size() > 0){
+					for(Country country : lstCountry){
 						insertRunAnonymizationCount = insertRunAnonymizationCount + 
-								gdprOutputDaoImpl.batchInsertRunAnonymizeMapping(runId);
+								gdprOutputDaoImpl.batchInsertRunAnonymizeMapping(runId, country.getCountryCode(), country.getRegion());
 					}
 					anonymizationProcessStatus  = anonymizationProcessStatus + GlobalConstants.RUN_ANONYMIZATION_INSERT+insertRunAnonymizationCount;
-						
+				}
+			}			
 		} catch (Exception exception) {	
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_RUN_ANONYMIZATION_LOAD);
 			exceptionOccured = true;

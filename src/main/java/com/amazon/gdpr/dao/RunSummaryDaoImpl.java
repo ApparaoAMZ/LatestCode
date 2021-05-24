@@ -90,7 +90,7 @@ public class RunSummaryDaoImpl {
 			String CURRENT_METHOD = "mapRow";		
 			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 									
-			return new SummaryData(rs.getInt("CATEGORY_ID"),    
+			return new SummaryData(rs.getInt("CATEGORY_ID"), rs.getString("REGION"), rs.getString("COUNTRY_CODE"),   
 					rs.getString("IMPACT_TABLE_NAME"), rs.getString("IMPACT_SCHEMA"), rs.getString("IMPACT_FIELD_NAME"), 
 					rs.getString("IMPACT_FIELD_TYPE"), rs.getString("TRANSFORMATION_TYPE"), rs.getInt("IMPACT_TABLE_ID"));
 		}

@@ -108,7 +108,8 @@ public class AnonymizeBatchConfig {
 		runSummaryMgmt = runSummaryDaoImpl.fetchRunSummaryDetail(runId, runSummaryId);
 		if (runSummaryMgmt != null) {
 			String taggedQueryFetch = "SELECT DISTINCT ID FROM TAG." +runSummaryMgmt.getImpactTableName()+
-					" WHERE CATEGORY_ID = "+runSummaryMgmt.getCategoryId() +" AND  STATUS = \'SCHEDULED\'";
+					" WHERE CATEGORY_ID = "+runSummaryMgmt.getCategoryId() +" AND COUNTRY_CODE = \'"+runSummaryMgmt.getCountryCode()+
+					"\' AND STATUS = \'SCHEDULED\'";
 			reader = new JdbcCursorItemReader<AnonymizeTable>();
 			reader.setDataSource(dataSource);
 			reader.setSql(taggedQueryFetch);

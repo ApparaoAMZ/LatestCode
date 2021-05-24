@@ -33,7 +33,7 @@ public class GdprScheduler {
 		String CURRENT_METHOD = "gdprProcessSchedule";
 		String currentDate = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now());	
 			
-		String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate);					
+		String gdprProcessScheduleStatus =  initService.initService("Run "+currentDate, null);					
 	}
 	
 }

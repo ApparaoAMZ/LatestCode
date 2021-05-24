@@ -22,7 +22,7 @@ public class GdprApplication extends SpringBootServletInitializer {
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		String CURRENT_METHOD = "configure";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
-		System.out.println("Testing Application::::#$##$##%%##----Main");
+		
 		setRegisterErrorPageFilter(false);
 		return application.sources(GdprApplication.class);
 	}

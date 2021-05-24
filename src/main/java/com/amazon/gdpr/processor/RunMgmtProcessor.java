@@ -311,9 +311,6 @@ public class RunMgmtProcessor {
 					} else {						
 						pastRunStatus = "The job has failed during initialization module. Please refresh the tables and have a new run. ";
 					}
-					System.out.println("subModuleName:::"+subModuleName);
-					System.out.println("moduleStatus:::"+moduleStatus);
-					System.out.println("pastRunStatus:::"+pastRunStatus);
 					break;
 				}
 				

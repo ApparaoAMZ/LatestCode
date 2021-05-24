@@ -35,7 +35,7 @@ public class TagQueryProcessor {
 			String tableName = runSummaryMgmt.getImpactTableName();
 			mapSummaryInputs = new HashMap<String, String>();
 			mapSummaryInputs.put(GlobalConstants.KEY_CATEGORY_ID, String.valueOf(runSummaryMgmt.getCategoryId()));
-			//mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, runSummaryMgmt.getCountryCode());
+			mapSummaryInputs.put(GlobalConstants.KEY_COUNTRY_CODE, runSummaryMgmt.getCountryCode());
 			
 			lstTableHierarchy = new ArrayList<String>();
 			runSummaryMgmt.setTaggedQueryLoad(fetchCompleteTaggedQuery(tableName, mapSummaryInputs, runId));
@@ -102,12 +102,10 @@ public class TagQueryProcessor {
 						for(int columnNameIterator = 0; columnNameIterator < colLength; columnNameIterator++) {  
 							mapSummaryInputs.get(columnNames[columnNameIterator]);
 							query[0] = query[0] +", "+currentTableName +"."+columnNames[columnNameIterator]+" "+columnNames[columnNameIterator];
-							if(!columnNames[columnNameIterator].equalsIgnoreCase("COUNTRY_CODE")) {
 							query[2] = query[2] +" AND "+currentTableName +"."+columnNames[columnNameIterator]+" = "+
 									((columnNames[columnNameIterator].equalsIgnoreCase(GlobalConstants.KEY_CATEGORY_ID)) ? 
 											Integer.parseInt(mapSummaryInputs.get(columnNames[columnNameIterator])) : 
 												"\'"+mapSummaryInputs.get(columnNames[columnNameIterator])+"\'");
-							}
 						}						
 					}
 				}
@@ -183,13 +181,11 @@ public class TagQueryProcessor {
 						for(int columnNameIterator = 0; columnNameIterator < colLength; columnNameIterator++) {  
 							mapSummaryInputs.get(columnNames[columnNameIterator]);
 							//query[0] = query[0] +", "+currentTableName +"."+columnNames[columnNameIterator]+" "+columnNames[columnNameIterator];
-							if(!columnNames[columnNameIterator].equalsIgnoreCase("COUNTRY_CODE")) {
 							query[2] = query[2] +" AND "+currentTableName +"."+columnNames[columnNameIterator]+" = "+
 									((columnNames[columnNameIterator].equalsIgnoreCase(GlobalConstants.KEY_CATEGORY_ID)) ? 
 											Integer.parseInt(mapSummaryInputs.get(columnNames[columnNameIterator])) : 
 												"\'"+mapSummaryInputs.get(columnNames[columnNameIterator])+"\'");
 						}						
-						}
 					}
 				}
 				String currentParent = currentImpactTable.getParentTable();
@@ -213,7 +209,7 @@ public class TagQueryProcessor {
 	public Map<String, ImpactTable> fetchImpactTableMap(long runId) {
 		
 		String CURRENT_METHOD = "fetchImpactTableMap";
-		System.out.println(CURRENT_CLASS + " : :: " + CURRENT_METHOD + " :: Inside method");
+		System.out.println(CURRENT_CLASS + " ::: " + CURRENT_METHOD + " :: Inside method");
 		Map<String, ImpactTable> mapImpactTable = new HashMap<String, ImpactTable>();
 		try {
 			List<ImpactTable> lstImpactTable = gdprInputFetchDaoImpl.fetchImpactTable(); 

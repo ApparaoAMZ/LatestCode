@@ -109,8 +109,8 @@ public class SummaryDataProcessor {
 		
 		try{
 			for(SummaryData summaryData : lstSummaryData) {
-				//String currentRegion = summaryData.getRegion();
-				//String currentCountryCode = summaryData.getCountryCode();
+				String currentRegion = summaryData.getRegion();
+				String currentCountryCode = summaryData.getCountryCode();
 				int currentCategoryId = summaryData.getCategoryId();
 				int currentImpactTableId = summaryData.getImpactTableId();
 				String currentImpactTableName = summaryData.getImpactTableName();
@@ -127,7 +127,8 @@ public class SummaryDataProcessor {
 							fetchUpdateField(currentImpactFieldName, currentImpactFieldType, summaryData.getTransformationType());
 					}	
 				}else{
-					if(currentCategoryId == prevCategoryId  && prevImpactTableId == currentImpactTableId ) {
+					if(currentCategoryId == prevCategoryId && currentRegion.equalsIgnoreCase(prevRegion) && 
+							currentCountryCode.equalsIgnoreCase(prevCountryCode) && prevImpactTableId == currentImpactTableId ) {
 						backupQuery = backupQuery + GlobalConstants.COMMA_STRING + currentImpactFieldName;
 						if(! currentTransformationType.equalsIgnoreCase(GlobalConstants.TYPE_DELETE_ROW)) {
 						    depersonalizationQuery = depersonalizationQuery + GlobalConstants.COMMA_STRING 
@@ -151,8 +152,8 @@ public class SummaryDataProcessor {
 				}
 			
 				prevCategoryId = currentCategoryId;
-				//prevRegion = currentRegion;
-				//prevCountryCode = currentCountryCode;
+				prevRegion = currentRegion;
+				prevCountryCode = currentCountryCode;
 				prevImpactTableId = currentImpactTableId;
 				prevImpactSchema = summaryData.getImpactSchema();
 				prevImpactTableName = currentImpactTableName;

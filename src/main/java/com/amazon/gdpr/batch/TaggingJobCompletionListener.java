@@ -68,7 +68,7 @@ public class TaggingJobCompletionListener extends JobExecutionListenerSupport {
 		try {
 			String sqlQuery = "UPDATE GDPR.RUN_SUMMARY_MGMT SET TAGGED_ROW_COUNT = (SELECT COUNT(TAG.ID) COUNT FROM "+tableName+
 					" TAG, GDPR.RUN_SUMMARY_MGMT RSM WHERE TAG.RUN_ID = RSM.RUN_ID AND TAG.CATEGORY_ID = RSM.CATEGORY_ID "+
-					" AND  RSM.SUMMARY_ID = "+runSummaryId+" ) WHERE SUMMARY_ID = "+runSummaryId;
+					" AND TAG.COUNTRY_CODE = RSM.COUNTRY_CODE AND RSM.SUMMARY_ID = "+runSummaryId+" ) WHERE SUMMARY_ID = "+runSummaryId;
 			runSummaryDaoImpl.tagDataCountUpdate(sqlQuery);
 			taggingData = taggingData + GlobalConstants.MSG_TAGDATA_COUNT_UPDATE;
 		} catch(Exception exception) {
