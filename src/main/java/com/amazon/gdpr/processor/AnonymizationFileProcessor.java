@@ -81,8 +81,8 @@ public class AnonymizationFileProcessor {
 			//selectedCountries.addAll(selectedCandCountries);
 			//selectedCountries.addAll(selectedEmpCountries);
 			//List<String> listWithoutDuplicates = selectedCountries.stream().distinct().collect(Collectors.toList());
-			lstCandCountry = gdprInputFetchDaoImpl.fetchCountry(selectedCandCountries);
-			lstEmpCountry = gdprInputFetchDaoImpl.fetchCountry(selectedEmpCountries);
+			lstCandCountry = gdprInputFetchDaoImpl.fetchCandCountry(selectedCandCountries);
+			lstEmpCountry = gdprInputFetchDaoImpl.fetchEmpCountry(selectedEmpCountries);
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: selectedCountries : "+selectedCandCountries.toString());
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstEmpCountry.toString());
 		}catch (Exception exception) {	

@@ -35,18 +35,33 @@ public class GdprInputFetchDaoImpl {
 	 * Fetches the Country Table rows
 	 * @return List of Country
 	 */
-	public List<Country> fetchCountry(List<String> selectedCountries){
+	public List<Country> fetchCandCountry(List<String> selectedCandCountries){
 		String CURRENT_METHOD = "fetchCountry";		
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
 		
-		String inSql = String.join(",", Collections.nCopies(selectedCountries.size(), "?"));
+		String inSql = String.join(",", Collections.nCopies(selectedCandCountries.size(), "?"));
 		@SuppressWarnings("unchecked")
-		List<Country> lstCountry = jdbcTemplate.query(String.format(SqlQueriesConstant.COUNTRY_FETCH, inSql), 
-				selectedCountries.toArray(), new CountryRowMapper());
-		return lstCountry;
+		List<Country> lstCandCountry = jdbcTemplate.query(String.format(SqlQueriesConstant.COUNTRY_FETCH, inSql), 
+				selectedCandCountries.toArray(), new CountryRowMapper());
+		return lstCandCountry;
 	}
 	
+	/**
+	 * Fetches the Country Table rows
+	 * @return List of Country
+	 */
+	public List<Country> fetchEmpCountry(List<String> selectedEmpCountries){
+		String CURRENT_METHOD = "fetchCountry";		
+		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
+		
+		
+		String inSql = String.join(",", Collections.nCopies(selectedEmpCountries.size(), "?"));
+		@SuppressWarnings("unchecked")
+		List<Country> lstEmpCountry = jdbcTemplate.query(String.format(SqlQueriesConstant.COUNTRY_EMP_FETCH, inSql), 
+				selectedEmpCountries.toArray(), new CountryRowMapper());
+		return lstEmpCountry;
+	}
 	/**
 	 * Fetches all the Country Table rows
 	 * @return List of Country
