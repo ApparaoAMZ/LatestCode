@@ -137,7 +137,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 					rs.getString("PH_AMAZON_ASSESSMENT_STATUS__C"), rs.getString("PH_CANDIDATE_PROVIDED_STATUS__C"), 
 					rs.getString("PH_MASTER_DATA_STATUS__C"));
 			} else {
-				return new GdprDepersonalizationInput(candidateId, rs.getString("CATEGORY__C"), rs.getString("COUNTRY_CODE__C"), recordType,
+				return new GdprDepersonalizationInput(candidateId,  rs.getString("COUNTRY_CODE__C"), recordType,
 						rs.getString("MASTER_DATA_STATUS__C"), rs.getString("STAFF_EXP_STATUS__C"));				
 			}			
 		}
