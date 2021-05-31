@@ -91,8 +91,8 @@ public class ReOrganizeInputProcessor {
 			String moduleStatus = "";
 			String prevJobModuleStatus = "";
 				
-			if(selectedCandCountries != null && selectedCandCountries.size() > 0) {
-				try {
+			if((selectedCandCountries != null && selectedCandCountries.size() > 0) ||(selectedEmpCountries != null && selectedEmpCountries.size() > 0 )) {
+					try {
 		    		moduleStartDateTime = new Date();	    				    		
 					for(String currentCountry : selectedCandCountries) { 	    				    		
 						JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();

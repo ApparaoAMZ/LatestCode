@@ -151,13 +151,15 @@ public class RunMgmtProcessor {
 		
 		try {
 			RunMgmt runMgmt = runMgmtDaoImpl.fetchLastRunDetail();
-			runStatus=runMgmt.getRunStatus();
-			runId=runMgmt.getRunId();
-			System.out.println("Testing Application:"+runStatus+"::::#$##$##%%##:::"+runId);
-			if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_INPROGRESS)) {
-				runStatus=GlobalConstants.STATUS_RERUN;
-				runMgmtDaoImpl.updateRunMgmt(runStatus, runId);
-			}
+			if(runMgmt!=null) {
+				runStatus=runMgmt.getRunStatus();
+				runId=runMgmt.getRunId();
+				System.out.println("Testing Application:"+runStatus+"::::#$##$##%%##:::"+runId);
+				if(runStatus.equalsIgnoreCase(GlobalConstants.STATUS_INPROGRESS)) {
+					runStatus=GlobalConstants.STATUS_RERUN;
+					runMgmtDaoImpl.updateRunMgmt(runStatus, runId);
+				}
+				}
 			System.out.println("Testing Application:"+runStatus+"::::&&&&&&&&:::"+runId);
 		} catch(Exception exception) {	
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_NEW_RUN_INITIATION);
