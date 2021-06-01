@@ -215,6 +215,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 					lstGdprDepersonalizationOutput.add(gdprDepersonalizationOutput);
 				
 			}
+			System.out.println("lstGdprDepersonalizationOutput::::"+lstGdprDepersonalizationOutput);
 			hvhOutputDaoImpl.batchInsertGdprDepersonalizationOutput(lstGdprDepersonalizationOutput);
 			return lstGdprDepersonalizationOutput;
 		}
