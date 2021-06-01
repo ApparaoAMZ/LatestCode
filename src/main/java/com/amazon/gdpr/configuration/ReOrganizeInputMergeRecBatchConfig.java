@@ -97,7 +97,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 				+ "'CANDIDATE' RECORD_TYPE, PH_AMAZON_ASSESSMENT_STATUS__C,PH_CANDIDATE_PROVIDED_STATUS__C, PH_MASTER_DATA_STATUS__C "
 				+ "FROM SF_COPY.GDPR_DEPERSONALIZATION__C GD, GDPR.DATA_LOAD DL, GDPR.RUN_MGMT RM "
 				+ "WHERE (GD.CREATEDDATE >= DL.LAST_DATA_LOADED_DATE OR GD.LASTMODIFIEDDATE >= DL.LAST_DATA_LOADED_DATE) "
-				+ "AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND (GD.CANDIDATE__C IS NULL OR GD.CANDIDATE__C='') AND GD.CANDIDATE_SFDC_ID__C IS NOT NULL AND BGC_STATUS__C IS NULL AND RM.RUN_ID = "+runId 
+				+ "AND GD.CREATEDDATE < RM.DATA_LOAD_DATE AND (GD.CANDIDATE__C IS NULL OR GD.CANDIDATE__C='') AND GD.CANDIDATE_SFDC_ID__C IS NOT NULL AND  (GD.BGC_STATUS__C IS NULL OR GD.BGC_STATUS__C='') AND RM.RUN_ID = "+runId 
 				+ " ORDER BY GD.CANDIDATE__C";
 		} else {
 			gdprDepersonalizationDataFetch = "SELECT DISTINCT GD.CANDIDATE__C, GD.CANDIDATE_SFDC_ID__C,GD.COUNTRY_CODE__C, 'EMPLOYEE' RECORD_TYPE, "
@@ -208,8 +208,10 @@ public class ReOrganizeInputMergeRecBatchConfig {
 			for(String fieldCategory : fieldCategoryList){					
 				Field field = GdprDepersonalizationInput.class.getDeclaredField(fieldCategory);
 				String fieldValue = (String) field.get(gdprDepersonalizationInput);
+				System.out.println("::gdprDepersonalizationInput::"+gdprDepersonalizationInput);
 				System.out.println("::fieldCategory::"+fieldCategory);
 				System.out.println(field+"::fieldValueAS::"+fieldValue);
+				System.out.println("::gdprDepersonalizationInputget::"+gdprDepersonalizationInput.getCategory());
 					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
 						gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
 						gdprDepersonalizationInput.getCountryCode(), fieldValue, 
