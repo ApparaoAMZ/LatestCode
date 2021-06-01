@@ -209,6 +209,8 @@ public class ReOrganizeInputEmpBatchConfig {
 					lstGdprDepersonalizationOutput.add(gdprDepersonalizationOutput);
 				}
 			}
+			
+			System.out.println("lstGdprDepersonalizationOutput EMP::::"+lstGdprDepersonalizationOutput);
 			hvhOutputDaoImpl.batchInsertGdprDepersonalizationOutput(lstGdprDepersonalizationOutput);
 			return lstGdprDepersonalizationOutput;
 		}
