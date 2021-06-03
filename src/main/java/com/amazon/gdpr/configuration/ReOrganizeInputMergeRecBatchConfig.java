@@ -208,7 +208,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 			for(String fieldCategory : fieldCategoryList){					
 				Field field = GdprDepersonalizationInput.class.getDeclaredField(fieldCategory);
 				String fieldValue = (String) field.get(gdprDepersonalizationInput);
-				System.out.println("::gdprDepersonalizationInput::"+gdprDepersonalizationInput);
+				System.out.println("::gdprDepersonalizationInput::"+gdprDepersonalizationInput.toString());
 				System.out.println("::fieldCategory::"+fieldCategory);
 				System.out.println(field+"::fieldValueAS::"+fieldValue);
 				System.out.println("::gdprDepersonalizationInputget::"+gdprDepersonalizationInput.getCategory());
