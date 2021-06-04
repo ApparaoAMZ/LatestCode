@@ -89,9 +89,6 @@ public class InitService {
 					if(depersBackupStatus.contains(GlobalConstants.MSG_BACKUPSERVICE_DEPERSONALIZETABLE_DATA)) {
 					List<String> lstCountry =  dataLoadProcessor.fetchListCountries(runId);
 					List<String> lstEmpCountry =  dataLoadProcessor.fetchListEmpCountries(runId);
-					
-					System.out.println("lstCountry:::"+lstCountry);
-					System.out.println("lstEmpCountry:::"+lstEmpCountry);
 					String[] initServiceStatus = initialize(runId, lstCountry,lstEmpCountry);
 					initServiceReturnStatus = initServiceReturnStatus + GlobalConstants.SEMICOLON_STRING + initServiceStatus[1];
 					}

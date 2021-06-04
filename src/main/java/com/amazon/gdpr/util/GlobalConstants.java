@@ -31,7 +31,6 @@ public class GlobalConstants {
 	public static String SUB_MODULE_SUMMARY_DATA_INITIALIZE		= "Summary Data Initialize Sub Module";
 	public static String SUB_MODULE_REORGANIZE_DATA				= "ReOrganize Input data Batch Sub Module";
 	public static String SUB_MODULE_REORGANIZE_EMP_DATA			= "ReOrganize Emp Input data Batch Sub Module";
-	public static String SUB_MODULE_REORGANIZE_MERGEREC_DATA			= "ReOrganize Merge Rec Input data Batch Sub Module";
 	
 	//public static String MODULE_REORGANIZEINPUT		= "ReOrganize Input Module";
 	public static String MODULE_DATABACKUP 				= "DataBackup Module";
@@ -84,8 +83,6 @@ public class GlobalConstants {
 	public static String CLS_JOB_REORGANIZE_EMP_DATAPROCESSOR 	= "ReorganizeEmpDataProcessor";
 	public static String CLS_JOB_TAGGINGPROCESSOR 			= "TaggingProcessor";
 	public static String CLS_JOB_ANONYMIZEPROCESSOR 		= "AnonymizeProcessor";
-	public static String CLS_JOB_REORGANIZE_MERGEREC_DATAPROCESSOR 	= "ReorganizeMergeRecDataProcessor";
-	
 	
 	public static String CLS_REORGANIZE_INPUT_PROCESSOR 	= "ReOrganizeInputProcessor";
 	public static String CLS_TAGDATAPROCESSOR				= "TagDataProcessor";
@@ -97,7 +94,6 @@ public class GlobalConstants {
 	public static String CLS_GDPR_DEPERSONALIZATION_BATCH_CONFIG	= "GdprDepersonalizationBatchConfig";
 	public static String CLS_REORGANIZEINPUT_BATCHCONFIG  			= "ReOrganizeInputBatchConfig";
 	public static String CLS_REORGANIZEINPUT_EMP_BATCHCONFIG  		= "ReOrganizeInputEmpBatchConfig";
-	public static String CLS_REORGANIZEINPUT_MERGEREC_BATCHCONFIG  		= "ReOrganizeInputMergeRecBatchConfig";
 	public static String CLS_TAGGING_BATCH_CONFIG					= "TaggingBatchConfig";
 	public static String CLS_ANONYMIZE_BATCH_CONFIG 				= "AnonymizeBatchConfig";
 	
@@ -136,7 +132,6 @@ public class GlobalConstants {
 	public static String CLS_BACKUPTABLEDETAILSROWMAPPER			= "CLS_BACKUPTABLEDETAILSROWMAPPER";
 	public static String CLS_GDPRDEPERSONALIZATIONINPUTROWMAPPER	= "GdprDepersonalizationInputRowMapper";
 	public static String CLS_GDPRDEPERSONALIZATIONINPUTEMPROWMAPPER	= "GdprDepersonalizationInputEmpRowMapper";
-	public static String CLS_GDPRDEPERSONALIZATIONINPUTMERGERECROWMAPPER	= "GdprDepersonalizationInputMergeRecRowMapper";
 	public static String CLS_ARCHIVETABLEROWMAPPER					= "ArchiveTableRowMapper";	
 	public static String CLS_ANONYMIZETABLEROWMAPPER				= "AnonymizeTableRowMapper";
 	
@@ -202,7 +197,6 @@ public class GlobalConstants {
 	
 	public static String JOB_REORGANIZE_INPUT_PROCESSOR 		= "processreorganizeInputJob";
 	public static String JOB_REORGANIZE_INPUT_EMP_PROCESSOR 	= "processReorganizeInputEmpJob";
-	public static String JOB_REORGANIZE_INPUT_MERGEREC_PROCESSOR 	= "processReorganizeInputMergeRecJob";
 	public static String JOB_TAGGING  							= "processTaggingJob";
 	public static String JOB_ANONYMIZE 							= "processAnonymizeJob";
 	public static String JOB_REORGANIZE_INPUT_CATEGORYMAP 		= "CategoryMap";	
@@ -266,7 +260,6 @@ public class GlobalConstants {
 	public static String MSG_REORGANIZEINPUT_JOB	= "Job initiating GDPR_Depersonalization__c reorganizing is completed. ";
 	public static String MSG_CAN_REORGANIZEINPUT_JOB	= "Job initiating GDPR_DEPERSONALIZATION__C reorganizing is completed. ";
 	public static String MSG_EMP_REORGANIZEINPUT_JOB	= "Job initiating GDPR_EMPLOYEE_DEPERSONALIZATION__C reorganizing is completed. ";
-	public static String MSG_MERGEREC_REORGANIZEINPUT_JOB	= "Job initiating GDPR_EMPLOYEE_DEPERSONALIZATION__C reorganizing is completed. ";
 	public static String MSG_TAGGING_JOB			= "Job initiating Tag Archival tables is completed. ";
 	public static String MSG_DEPERSONALIZATION_JOB  = "Job initiating Anonymization for archival tables is completed. ";
 	

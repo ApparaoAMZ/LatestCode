@@ -1,6 +1,5 @@
 package com.amazon.gdpr.processor;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,10 +39,6 @@ public class ReOrganizeInputProcessor {
 	
 	@Autowired
     Job processReorganizeInputEmpJob;
-	
-	@Autowired
-    Job processReorganizeInputMergeRecJob;
-	
 	
 	@Autowired
 	RunMgmtProcessor runMgmtProcessor;
@@ -95,11 +90,9 @@ public class ReOrganizeInputProcessor {
 			String errorDetails = "";
 			String moduleStatus = "";
 			String prevJobModuleStatus = "";
-			List<String> selectedIdSpace=new ArrayList<String>() ;
-			selectedIdSpace.add(GlobalConstants.JOB_INPUT_CAN_RECORD);
-			selectedIdSpace.add(GlobalConstants.JOB_INPUT_EMP_RECORD);
+				
 			if((selectedCandCountries != null && selectedCandCountries.size() > 0) ||(selectedEmpCountries != null && selectedEmpCountries.size() > 0 )) {
-					try {
+				try {
 		    		moduleStartDateTime = new Date();	    				    		
 					for(String currentCountry : selectedCandCountries) { 	    				    		
 						JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
@@ -151,33 +144,6 @@ public class ReOrganizeInputProcessor {
 						errorDetails = exception.getStackTrace().toString();
 					}
 				}
-				
-				if (!exceptionOccured) {
-					try {						
-						for(String idSpace : selectedIdSpace) { 	    					    	
-							JobParametersBuilder jobParameterBuilder= new JobParametersBuilder();
-							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_RUN_ID, runId);
-							jobParameterBuilder.addLong(GlobalConstants.JOB_INPUT_JOB_ID, new Date().getTime());
-							jobParameterBuilder.addDate(GlobalConstants.JOB_INPUT_START_DATE, new Date());
-							jobParameterBuilder.addString(GlobalConstants.JOB_INPUT_RECORDTYPE, idSpace);
-							
-							System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: JobParameters set ");
-							JobParameters jobParameters = jobParameterBuilder.toJobParameters();
-			
-							jobLauncher.run(processReorganizeInputMergeRecJob, jobParameters);
-						}
-						reOrganizeDataStatus = reOrganizeDataStatus + GlobalConstants.MSG_MERGEREC_REORGANIZEINPUT_JOB;	    		
-		    						
-					} catch (JobExecutionAlreadyRunningException | JobRestartException
-							| JobInstanceAlreadyCompleteException | JobParametersInvalidException exception) {
-						exceptionOccured = true;
-						reOrganizeDataStatus = reOrganizeDataStatus+ GlobalConstants.ERR_EMP_REORGANIZE_JOB_RUN;
-						System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+reOrganizeDataStatus);
-						exception.printStackTrace();
-						errorDetails = exception.getStackTrace().toString();
-					}
-				}
-				
 			} else {
     			reOrganizeDataStatus = "No countries selected to reorganize. ";
     		}			

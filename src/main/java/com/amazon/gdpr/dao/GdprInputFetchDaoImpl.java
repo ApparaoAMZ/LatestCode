@@ -168,7 +168,7 @@ public class GdprInputFetchDaoImpl {
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
 		@SuppressWarnings("unchecked")
-		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_COUNTRIES_FETCH, new Object[]{runId,runId}, new GdprCountriesFetch());
+		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_COUNTRIES_FETCH, new Object[]{runId}, new GdprCountriesFetch());
 		return lstCountries;
 	}
 	
@@ -181,7 +181,7 @@ public class GdprInputFetchDaoImpl {
 		System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+":: Inside method");
 		
 		@SuppressWarnings("unchecked")
-		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_EMPLOYEE_COUNTRIES_FETCH, new Object[]{runId,runId}, new GdprCountriesFetch());
+		List<String> lstCountries = jdbcTemplate.query(SqlQueriesConstant.GDPR_EMPLOYEE_COUNTRIES_FETCH, new Object[]{runId}, new GdprCountriesFetch());
 		return lstCountries;
 	}
 	
