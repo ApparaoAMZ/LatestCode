@@ -157,14 +157,13 @@ public class ReOrganizeInputMergeRecBatchConfig {
 			Boolean exceptionOccured = false;
 			String reOrganizeData = CURRENT_CLASS +":::"+CURRENT_METHOD+"::";
 			String errorDetails = "";
-						
+				
 			try {				
 				JobParameters jobParameters = stepExecution.getJobParameters();
 				runId	= jobParameters.getLong(GlobalConstants.JOB_INPUT_RUN_ID);
 				long currentRun 	= jobParameters.getLong(GlobalConstants.JOB_INPUT_JOB_ID);
 	
 				moduleStartDateTime = jobParameters.getDate(GlobalConstants.JOB_INPUT_START_DATE);
-		
 				
 				mapCategory = gdprInputDaoImpl.fetchCategoryDetails();
 				mapFieldCategory = gdprInputDaoImpl.getMapFieldCategory();
@@ -199,7 +198,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 			String reOrganizeData = CURRENT_CLASS +":::"+CURRENT_METHOD+"::";
 			List<GdprDepersonalizationOutput> lstGdprDepersonalizationOutput = new ArrayList<GdprDepersonalizationOutput>();
 			String errorDetails = "";
-			
+			String recordType=gdprDepersonalizationInput.getRecordType();	
 			if(mapCategory == null)	
 				mapCategory = gdprInputDaoImpl.fetchCategoryDetails();
 			if(mapFieldCategory == null)
@@ -212,11 +211,24 @@ public class ReOrganizeInputMergeRecBatchConfig {
 				System.out.println("::fieldCategory::"+fieldCategory);
 				System.out.println(field+"::fieldValueAS::"+fieldValue);
 				System.out.println("::gdprDepersonalizationInputget::"+gdprDepersonalizationInput.getCategory());
+				if(recordType.equalsIgnoreCase(GlobalConstants.JOB_INPUT_CAN_RECORD)) {
+					if(fieldCategory.equalsIgnoreCase("candidateProvidedStatus")||fieldCategory.equalsIgnoreCase("amazonAssessmentStatus")||fieldCategory.equalsIgnoreCase("masterDataStatus")) {
 					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
 						gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
 						gdprDepersonalizationInput.getCountryCode(), fieldValue, 
 						GlobalConstants.STATUS_SCHEDULED);
 					lstGdprDepersonalizationOutput.add(gdprDepersonalizationOutput);
+					}
+				} else if(recordType.equalsIgnoreCase(GlobalConstants.JOB_INPUT_EMP_RECORD)) {
+					if(fieldCategory.equalsIgnoreCase("staffExperience")||fieldCategory.equalsIgnoreCase("masterData")) {
+						
+					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
+							gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
+							gdprDepersonalizationInput.getCountryCode(), fieldValue, 
+							GlobalConstants.STATUS_SCHEDULED);
+						lstGdprDepersonalizationOutput.add(gdprDepersonalizationOutput);
+					}
+				}
 				
 			}
 			System.out.println("lstGdprDepersonalizationOutput Merge::::"+lstGdprDepersonalizationOutput);
