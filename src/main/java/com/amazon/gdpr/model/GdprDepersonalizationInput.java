@@ -47,6 +47,18 @@ public class GdprDepersonalizationInput {
 		this.withConsentStatus = withConsentStatus;
 	}
 	
+	public GdprDepersonalizationInput(String candidate, String category, String countryCode, String recordType,
+			String amazonAssessmentStatus, String candidateProvidedStatus, String masterDataStatus) {
+		super();
+		this.candidate = candidate;
+		this.category = category;
+		this.countryCode = countryCode;
+		this.recordType = recordType;
+		this.amazonAssessmentStatus = amazonAssessmentStatus;
+		this.candidateProvidedStatus = candidateProvidedStatus;
+		this.masterDataStatus = masterDataStatus;
+		
+	}
 	public GdprDepersonalizationInput(String candidate, String countryCode, String recordType, 
 			String masterData, String staffExperience, String biographicalPhotographs) {
 		super();
@@ -57,6 +69,18 @@ public class GdprDepersonalizationInput {
 		this.staffExperience = staffExperience;
 		this.biographicalPhotographs = biographicalPhotographs;
 	}
+	
+	public GdprDepersonalizationInput(String candidate, String countryCode, String recordType, 
+			String masterData, String staffExperience) {
+		super();
+		this.candidate = candidate;
+		this.countryCode = countryCode;
+		this.recordType = recordType;
+		this.masterData = masterData;
+		this.staffExperience = staffExperience;
+		
+	}
+	
 	
 	/**
 	 * @return the candidate
