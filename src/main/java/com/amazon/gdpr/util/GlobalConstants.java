@@ -69,6 +69,12 @@ public class GlobalConstants {
 	public static String CLS_GDPRDEPERSONALIZATIONCONTROLLER 	= "GdprDepersonalizationController";
 	public static String CLS_FILEUPLOADCONTROLLER				= "FileUploadController";
 	
+	public static String CAT_CANDIDATEPROVIDEDSTATUS				= "candidateProvidedStatus";
+	public static String CAT_AMAZONASSESSMENTSTATUS				= "amazonAssessmentStatus";
+	public static String CAT_MASTERDATASTATUS				= "masterDataStatus";
+	public static String CAT_STAFFEXPERIENCE				= "staffExperience";
+	public static String CAT_MASTERDATA				= "masterData";
+	
 	public static String CLS_GDPRAPPLICATION		= "GDPRApplication";
 	public static String CLS_GDPRCMDLINEAPPLICATION = "GdprCmdLineApplication";
 	

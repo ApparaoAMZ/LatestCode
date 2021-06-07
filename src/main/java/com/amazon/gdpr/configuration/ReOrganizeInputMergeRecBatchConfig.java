@@ -211,7 +211,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 				System.out.println(field+"::fieldValueAS::"+fieldValue);
 				System.out.println("::gdprDepersonalizationInputget::"+gdprDepersonalizationInput.getCategory());
 				if(recordType.equalsIgnoreCase(GlobalConstants.JOB_INPUT_CAN_RECORD)) {
-					if(fieldCategory.equalsIgnoreCase("candidateProvidedStatus")||fieldCategory.equalsIgnoreCase("amazonAssessmentStatus")||fieldCategory.equalsIgnoreCase("masterDataStatus")) {
+					if(fieldCategory.equalsIgnoreCase(GlobalConstants.CAT_CANDIDATEPROVIDEDSTATUS)||fieldCategory.equalsIgnoreCase(GlobalConstants.CAT_AMAZONASSESSMENTSTATUS)||fieldCategory.equalsIgnoreCase(GlobalConstants.CAT_MASTERDATASTATUS)) {
 					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
 						gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
 						gdprDepersonalizationInput.getCountryCode(), fieldValue, 
@@ -219,7 +219,7 @@ public class ReOrganizeInputMergeRecBatchConfig {
 					lstGdprDepersonalizationOutput.add(gdprDepersonalizationOutput);
 					}
 				} else if(recordType.equalsIgnoreCase(GlobalConstants.JOB_INPUT_EMP_RECORD)) {
-					if(fieldCategory.equalsIgnoreCase("staffExperience")||fieldCategory.equalsIgnoreCase("masterData")) {
+					if(fieldCategory.equalsIgnoreCase(GlobalConstants.CAT_STAFFEXPERIENCE)||fieldCategory.equalsIgnoreCase(GlobalConstants.CAT_MASTERDATA)) {
 						
 					GdprDepersonalizationOutput gdprDepersonalizationOutput = new GdprDepersonalizationOutput(runId,
 							gdprDepersonalizationInput.getCandidate(), Integer.parseInt(mapFieldCategory.get(fieldCategory)), 
