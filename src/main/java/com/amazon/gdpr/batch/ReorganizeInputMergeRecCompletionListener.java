@@ -45,6 +45,7 @@ public class ReorganizeInputMergeRecCompletionListener extends JobExecutionListe
 		long runId = jobParameters.getLong(GlobalConstants.JOB_INPUT_RUN_ID);
 		long jobId = jobParameters.getLong(GlobalConstants.JOB_INPUT_JOB_ID);
 		String countryCode = jobParameters.getString(GlobalConstants.JOB_INPUT_COUNTRY_CODE);
+		String recType = jobParameters.getString(GlobalConstants.JOB_INPUT_RECORDTYPE);
 		moduleStartDateTime = jobExecution.getStartTime();
 		List<Throwable> lstThrowable = jobExecution.getAllFailureExceptions();
 		if(lstThrowable != null && lstThrowable.size() > 0) {
@@ -54,7 +55,7 @@ public class ReorganizeInputMergeRecCompletionListener extends JobExecutionListe
 				failureStatus = failureStatus + Arrays.toString(throwable.getStackTrace());				
 			}				
 		} else
-			reOrganizeData = reOrganizeData + GlobalConstants.MSG_REORGANIZEINPUT_EMP + countryCode+". ";
+			reOrganizeData = reOrganizeData + GlobalConstants.MSG_REORGANIZEINPUT_MERGE + recType+". ";
 			
 		try {
 			String moduleStatus = (jobExecution.getStatus() == BatchStatus.FAILED) ? GlobalConstants.STATUS_FAILURE : 

@@ -171,7 +171,7 @@ public class ReOrganizeInputProcessor {
 					} catch (JobExecutionAlreadyRunningException | JobRestartException
 							| JobInstanceAlreadyCompleteException | JobParametersInvalidException exception) {
 						exceptionOccured = true;
-						reOrganizeDataStatus = reOrganizeDataStatus+ GlobalConstants.ERR_EMP_REORGANIZE_JOB_RUN;
+						reOrganizeDataStatus = reOrganizeDataStatus+ GlobalConstants.ERR_MERGEREC_REORGANIZE_JOB_RUN;
 						System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+reOrganizeDataStatus);
 						exception.printStackTrace();
 						errorDetails = exception.getStackTrace().toString();

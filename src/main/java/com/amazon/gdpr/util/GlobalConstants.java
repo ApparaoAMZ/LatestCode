@@ -256,6 +256,7 @@ public class GlobalConstants {
 	public static String MSG_BKPUP_TABLE_STATUS		= "Refresh is performed on backup tables and the backup table is updated with columns";
 	public static String MSG_REORGANIZEINPUT		= "The data GDPR_Depersonalization__c has been reorganized for country code - ";	
 	public static String MSG_REORGANIZEINPUT_EMP	= "The data GDPR_EMPLOYEE_DEPERSONALIZATION__C has been reorganized for country code - ";
+	public static String MSG_REORGANIZEINPUT_MERGE	= "The data MergeReorganization has been reorganized for - ";
 	
 	public static String MSG_TAGGING_DATA			= "Tagged the data in SF_ARCHIVE table";
 	public static String MSG_TAGDATA_COUNT_UPDATE   = "Tagged data count is updated in Summary Tables. ";
@@ -266,12 +267,13 @@ public class GlobalConstants {
 	public static String MSG_REORGANIZEINPUT_JOB	= "Job initiating GDPR_Depersonalization__c reorganizing is completed. ";
 	public static String MSG_CAN_REORGANIZEINPUT_JOB	= "Job initiating GDPR_DEPERSONALIZATION__C reorganizing is completed. ";
 	public static String MSG_EMP_REORGANIZEINPUT_JOB	= "Job initiating GDPR_EMPLOYEE_DEPERSONALIZATION__C reorganizing is completed. ";
-	public static String MSG_MERGEREC_REORGANIZEINPUT_JOB	= "Job initiating GDPR_EMPLOYEE_DEPERSONALIZATION__C reorganizing is completed. ";
+	public static String MSG_MERGEREC_REORGANIZEINPUT_JOB	= "Job initiating Merge Candidates reorganizing is completed. ";
 	public static String MSG_TAGGING_JOB			= "Job initiating Tag Archival tables is completed. ";
 	public static String MSG_DEPERSONALIZATION_JOB  = "Job initiating Anonymization for archival tables is completed. ";
 	
 	public static String ERR_CAN_REORGANIZE_JOB_RUN		= "Facing issues while initiating GDPR_DEPERSONALIZATION__C reorganizing job. ";
 	public static String ERR_EMP_REORGANIZE_JOB_RUN		= "Facing issues while initiating GDPR_EMPLOYEE_DEPERSONALIZATION__C reorganizing job. ";
+	public static String ERR_MERGEREC_REORGANIZE_JOB_RUN		= "Facing issues while initiating Merge Candidates reorganizing job. ";
 	public static String ERR_REORGANIZE_JOB_RUN		= "Facing issues while initiating reorganizing job. ";
 	public static String ERR_TAGGED_JOB_RUN			= "Facing issues while initiating tagged job. ";
 	public static String ERR_DEPERSONALIZE_JOB_RUN 	= "Facing issues while initiating depersonlization job. ";	

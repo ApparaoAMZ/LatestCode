@@ -162,7 +162,6 @@ public class ReOrganizeInputMergeRecBatchConfig {
 				JobParameters jobParameters = stepExecution.getJobParameters();
 				runId	= jobParameters.getLong(GlobalConstants.JOB_INPUT_RUN_ID);
 				long currentRun 	= jobParameters.getLong(GlobalConstants.JOB_INPUT_JOB_ID);
-	
 				moduleStartDateTime = jobParameters.getDate(GlobalConstants.JOB_INPUT_START_DATE);
 				
 				mapCategory = gdprInputDaoImpl.fetchCategoryDetails();
