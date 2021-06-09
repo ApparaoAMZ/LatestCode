@@ -88,8 +88,8 @@ public class AnonymizationFileProcessor {
 			lstEmpCountry = gdprInputFetchDaoImpl.fetchEmpCountry(selectedEmpCountries);
 			}
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: selectedCountries : "+selectedCandCountries.toString());
-			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCandCountry : "+lstCandCountry.toString());
-			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstEmpCountry.toString());
+			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCandCountry : "+lstCandCountry.toString());
+			//System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: lstCountry : "+lstEmpCountry.toString());
 		}catch (Exception exception) {	
 			System.out.println(CURRENT_CLASS+" ::: "+CURRENT_METHOD+" :: "+GlobalConstants.ERR_FETCH_COUNTRY_DETAIL);
 			exceptionOccured = true;
